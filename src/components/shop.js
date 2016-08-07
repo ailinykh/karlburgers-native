@@ -1,4 +1,4 @@
-import React, { Component, Text } from 'react';
+import React, { Component } from 'react';
 import Product from './product';
 
 export default class Shop extends Component {
