@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchProducts } from '../actions';
-import { StyleSheet, ListView, View } from 'react-native';
+import { StyleSheet, ListView, RefreshControl, View, Image } from 'react-native';
 import ProductListItem from '../components/productListItem';
 
 export default class ProductList extends Component {
@@ -13,7 +13,13 @@ export default class ProductList extends Component {
   render() {
     return (
       <View style={ styles.container }>
-        {this._renderList()}
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={styles.bgImage}
+          source={require('../images/kb-bg.png')}
+        >
+          {this._renderList()}
+        </Image>
       </View>
     );
   }
@@ -27,7 +33,14 @@ export default class ProductList extends Component {
           contentContainerStyle={styles.list}
           dataSource={ds.cloneWithRows(this.props.products)}
           renderRow={(product) => <ProductListItem style={styles.item} product={product}/>}
-          // renderRow={(product) => <View style={styles.item} product={product}></View>}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.isFetching}
+              onRefresh={() => this.props.dispatch(fetchProducts())}
+              colors={['white']}
+              tintColor={'white'}
+            />
+          }
         />
       );
     } else {
@@ -41,10 +54,18 @@ const styles = StyleSheet.create({
     paddingTop: 64,
     flex: 1
   },
+  bgImage: {
+    flex: 1,
+    alignSelf: 'stretch',
+    backgroundColor: '#f8863d',
+    width: null,
+    height: null,
+  },
   list: {
     justifyContent: 'center',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    backgroundColor: 'white'
   }
 });
 

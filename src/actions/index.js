@@ -24,6 +24,7 @@ export const fetchProducts = (): Function => {
     return fetch(REQUEST_URL)
       .then((response) => response.json())
       .then((responseJson) => {
+        // setTimeout(() => dispatch(receiveProducts(responseJson)), 1000);
         dispatch(receiveProducts(responseJson));
       })
       .catch((error) => {
