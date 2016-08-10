@@ -32,7 +32,7 @@ export default class ProductList extends Component {
           enableEmptySections={true}
           contentContainerStyle={styles.list}
           dataSource={ds.cloneWithRows(this.props.products)}
-          renderRow={(product) => <ProductListItem style={styles.item} product={product}/>}
+          renderRow={(product) => <ProductListItem product={product}/>}
           refreshControl={
             <RefreshControl
               refreshing={this.props.isFetching}
