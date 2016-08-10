@@ -17,9 +17,9 @@ export default class ProductListItem extends Component {
             <Text style={styles.priceContainer}>
               <Text style={styles.price}>{this.props.product.price}</Text> руб.
             </Text>
-            <TouchableHighlight onPress={this._onPressCartButton} underlayColor='white'>
+            <TouchableHighlight onPress={this._onPressCartButton.bind(this)} underlayColor='white'>
               <Text style={styles.cartContainer}>
-                <Icon name="ios-cart-outline" size={22} style={styles.cartButton}/>
+                <Icon name="ios-cart-outline" size={19} style={styles.cartButton}/> {this.props.cartCount}
               </Text>
             </TouchableHighlight>
           </View>
@@ -39,7 +39,7 @@ export default class ProductListItem extends Component {
   }
 
   _onPressCartButton() {
-    console.log('_onPressCartButton');
+    this.props.addToCartAction(this.props.product);
   }
 }
 
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     flex: .5,
     textAlign: 'right',
     color: KB_ORANGE,
+    fontSize: 19,
     // backgroundColor: 'aqua'
   },
   cartButton: {

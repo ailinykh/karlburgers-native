@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchProducts } from '../actions';
+import { fetchProducts, addToCart } from '../actions';
 import { StyleSheet, ListView, RefreshControl, View, Image } from 'react-native';
 import ProductListItem from '../components/productListItem';
 import { KB_ORANGE } from '../constants';
@@ -33,7 +33,11 @@ export default class ProductList extends Component {
           enableEmptySections={true}
           contentContainerStyle={styles.list}
           dataSource={ds.cloneWithRows(this.props.products)}
-          renderRow={(product) => <ProductListItem product={product}/>}
+          renderRow={(product) => {
+            var cartProduct = this.props.cartProducts.find((p) => p.id == product.id);
+            var cartCount = cartProduct ? cartProduct.count : undefined;
+            return <ProductListItem product={product} cartCount={cartCount} addToCartAction={this._onPressAddButton.bind(this)}/>
+          }}
           refreshControl={
             <RefreshControl
               refreshing={this.props.isFetching}
@@ -47,6 +51,10 @@ export default class ProductList extends Component {
     } else {
       return <Text>Hi! I am a product list!</Text>
     }
+  }
+
+  _onPressAddButton(product) {
+    this.props.dispatch(addToCart(product));
   }
 }
 
@@ -72,5 +80,6 @@ const styles = StyleSheet.create({
 
 export default connect((state) => ({
   isFetching: state.products.isFetching,
-  products: state.products.data
+  products: state.products.data,
+  cartProducts: state.cart.products
 }))(ProductList);
