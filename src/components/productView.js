@@ -39,7 +39,6 @@ export default class ProductView extends Component {
   }
 
   _updateWebViewHeight(event) {
-    console.log('Set webViewHeight:'+event.jsEvaluationValue);
     this.setState({webViewHeight: parseInt(event.jsEvaluationValue)})
   }
 }
