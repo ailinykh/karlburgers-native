@@ -25,8 +25,45 @@ const products = (state = {
   }
 }
 
+const cart = (state = {
+  products: []
+}, action) => {
+  switch (action.type) {
+    case types.ADD_TO_CART:
+      var products = [...state.products];
+      var product = products.find((p) => p.id == action.product.id);
+      if (product == undefined) {
+        action.product.count = 1;
+        products.push(action.product);
+      } else {
+        product.count++;
+      }
+      return {
+        ...state,
+        products: products
+      }
+    case types.REMOVE_FROM_CART:
+      var products = [...state.products];
+      var product = products.find((p) => p.id == action.product.id);
+      if (product) {
+        if (product.count <= 1) {
+          products.splice(products.indexOf(product), 1);
+        } else {
+          product.count--;
+        }
+      }
+      return {
+        ...state,
+        products: products
+      }
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
-  products
+  products,
+  cart,
 });
 
 export default rootReducer;

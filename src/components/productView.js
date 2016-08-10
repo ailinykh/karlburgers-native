@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, View, Image, Text, Dimensions, WebView } from 'react-native';
+import { connect } from 'react-redux';
+import { addToCart, removeFromCart } from '../actions';
 import { Actions } from 'react-native-router-flux';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
 import { Button, Icon } from 'native-base';
@@ -9,9 +11,16 @@ export default class ProductView extends Component {
 
   constructor(props) {
     super(props);
+    var product = props.products.find((p) => p.id == this.props.product.id);
     this.state = {
-      webViewHeight: 100
+      webViewHeight: 100,
+      cartCount: product ? product.count : 0
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    var product = nextProps.products.find((p) => p.id == this.props.product.id);
+    this.setState({cartCount: product ? product.count : 0});
   }
 
   render() {
@@ -23,9 +32,9 @@ export default class ProductView extends Component {
         <Text style={styles.price}>{this.props.product.price} руб.</Text>
         <View style={styles.controls}>
           <View/>
-          <Button style={styles.buttonAdd}><Icon name="md-add"/></Button>
-          <Text style={{ paddingTop:10, fontSize:17 }}>В корзине: 10</Text>
-          <Button style={styles.buttonRemove}><Icon name="md-remove" style={{color:'black'}}/></Button>
+          <Button style={styles.buttonAdd} onPress={this._onPressAddButton.bind(this)}><Icon name="md-add"/></Button>
+          <Text style={{ paddingTop:10, fontSize:17 }}>В корзине: {this.state.cartCount}</Text>
+          <Button style={styles.buttonRemove} onPress={this._onPressRemoveButton.bind(this)}><Icon name="md-remove" style={{color:'black'}}/></Button>
           <View/>
         </View>
         <WebView
@@ -36,6 +45,15 @@ export default class ProductView extends Component {
           source={{html: `<html><body style="font-family: HelveticaNeue, san-serif">${this.props.product.description.replace(/(\n<br>)+/g, '<br/>').replace(/img\ssrc/g, 'img style="max-width:100%; margin-top:5px;" src')}</body></html>`}}/>
       </ScrollView>
     );
+  }
+
+  _onPressAddButton() {
+    console.log('_onPressAddButton');
+    this.props.dispatch(addToCart(this.props.product));
+  }
+
+  _onPressRemoveButton() {
+    this.props.dispatch(removeFromCart(this.props.product));
   }
 
   _updateWebViewHeight(event) {
@@ -73,3 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'aliceblue'
   }
 });
+
+export default connect((state) => ({
+  products: state.cart.products
+}))(ProductView);
