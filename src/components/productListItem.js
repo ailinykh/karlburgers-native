@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, Dimensions, TouchableHighlight } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { IIKO_RESTARAUNT_ID } from '../constants';
+import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
 
 export default class ProductListItem extends Component {
   render() {
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     flex: .5,
     textAlign: 'right',
-    color: '#f8863d',
+    color: KB_ORANGE,
     // backgroundColor: 'aqua'
   },
   cartButton: {

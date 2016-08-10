@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchProducts } from '../actions';
 import { StyleSheet, ListView, RefreshControl, View, Image } from 'react-native';
 import ProductListItem from '../components/productListItem';
+import { KB_ORANGE } from '../constants';
 
 export default class ProductList extends Component {
 
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   bgImage: {
     flex: 1,
     alignSelf: 'stretch',
-    backgroundColor: '#f8863d',
+    backgroundColor: KB_ORANGE,
     width: null,
     height: null,
   },
