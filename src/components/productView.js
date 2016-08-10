@@ -48,7 +48,6 @@ export default class ProductView extends Component {
   }
 
   _onPressAddButton() {
-    console.log('_onPressAddButton');
     this.props.dispatch(addToCart(this.props.product));
   }
 
