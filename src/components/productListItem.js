@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, Dimensions, TouchableHighlight } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { IIKO_RESTARAUNT_ID } from '../constants';
 
 export default class ProductListItem extends Component {
@@ -12,6 +13,16 @@ export default class ProductListItem extends Component {
             resizeMode={Image.resizeMode.contain}
             source={{uri: `http://deliverywiget.iiko.ru/Content/User/${IIKO_RESTARAUNT_ID}/${this.props.product.imageId}_Medium_.png`}}
           />
+          <View style={styles.orderContainer}>
+            <Text style={styles.priceContainer}>
+              <Text style={styles.price}>{this.props.product.price}</Text> руб.
+            </Text>
+            <TouchableHighlight onPress={this._onPressCartButton} underlayColor='white'>
+              <Text style={styles.cartContainer}>
+                <Icon name="ios-cart-outline" size={22} style={styles.cartButton}/>
+              </Text>
+            </TouchableHighlight>
+          </View>
           <Text style={styles.title}>
             {this.props.product.name}
           </Text>
@@ -25,6 +36,10 @@ export default class ProductListItem extends Component {
 
   _onPressButton() {
     Actions.productView({product: this.props.product, title: this.props.product.name});
+  }
+
+  _onPressCartButton() {
+    console.log('_onPressCartButton');
   }
 }
 
@@ -40,8 +55,30 @@ const styles = StyleSheet.create({
   image: {
     height: width*.4
   },
+  orderContainer: {
+    padding: 10,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  priceContainer: {
+    fontSize: 17,
+    flex: .5,
+  },
+  cartContainer: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    flex: .5,
+    textAlign: 'right',
+    color: '#f8863d',
+    // backgroundColor: 'aqua'
+  },
+  cartButton: {
+
+  },
+  price: {
+    fontWeight:'bold',
+  },
   title: {
-    paddingTop: 5,
     paddingBottom: 5,
     fontSize: 20,
     textAlign: 'center'
