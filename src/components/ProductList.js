@@ -7,7 +7,8 @@ import { KB_ORANGE } from '../constants';
 
 export default class ProductList extends Component {
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.props.dispatch(fetchProducts());
   }
 
