@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchProducts, addToCart } from '../actions';
 import { StyleSheet, ListView, RefreshControl, View, Image } from 'react-native';
-import ProductListItem from '../components/productListItem';
+import ProductListItem from './ProductListItem';
 import { KB_ORANGE } from '../constants';
 
 export default class ProductList extends Component {

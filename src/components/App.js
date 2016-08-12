@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from '../store/configureStore';
 import { Actions, Scene, Router, Reducer } from 'react-native-router-flux';
-import ProductList from './productList';
-import ProductView from '../components/productView';
-import NavigationDrawer from '../components/NavigationDrawer';
+import ProductList from './ProductList';
+import ProductView from './ProductView';
+import NavigationDrawer from './NavigationDrawer';
 
 const store = configureStore();
 

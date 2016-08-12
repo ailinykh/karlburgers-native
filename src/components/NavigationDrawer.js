@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { DefaultRenderer, Actions } from 'react-native-router-flux';
 
-import SideMenu from '../containers/sideMenu';
+import SideMenu from './SideMenu';
 
 const propTypes = {
   navigationState: PropTypes.object,
