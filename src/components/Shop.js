@@ -12,6 +12,9 @@ export default class Shop extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(fetchProducts());
+
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {ds};
   }
 
   render() {
@@ -30,13 +33,12 @@ export default class Shop extends Component {
 
   _renderList() {
     if (this.props.products.length !== 0 || this.props.isFetching) {
-      var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       console.log('RENDER LIST WITH PRODUCTS: '+this.props.products.length);
       return(
         <ListView
           enableEmptySections={true}
           contentContainerStyle={styles.list}
-          dataSource={ds.cloneWithRows(this.props.products)}
+          dataSource={this.state.ds.cloneWithRows(this.props.products)}
           renderRow={(product) => {
             var cartProduct = this.props.cartProducts.find((p) => p.id == product.id);
             var cartCount = cartProduct ? cartProduct.count : undefined;
