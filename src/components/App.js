@@ -5,8 +5,8 @@ import { Scene, Router } from 'react-native-router-flux';
 import configureStore from '../store/configureStore';
 
 import NavigationDrawer from './NavigationDrawer';
-import ProductList from './ProductList';
-import ProductView from './ProductView';
+import Shop from './Shop';
+import Product from './Product';
 import About from './About';
 import Cart from './Cart';
 
@@ -26,9 +26,9 @@ export default class App extends Component {
               >
               <Scene key="main" tabs tabBarHidden>
                 <Scene
-                  key="productList"
+                  key="shop"
                   drawerImage={require("../images/navicon.png")}
-                  component={ProductList}
+                  component={Shop}
                   title="Меню"
                   initial/>
                 <Scene
@@ -39,8 +39,8 @@ export default class App extends Component {
               </Scene>
             </Scene>
             <Scene
-              key="productView"
-              component={ProductView}
+              key="product"
+              component={Product}
               title="Бургер"/>
             <Scene
               key="cart"

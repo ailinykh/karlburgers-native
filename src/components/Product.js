@@ -7,7 +7,7 @@ import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
 import { Button, Icon } from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
 
-export default class ProductView extends Component {
+export default class Product extends Component {
 
   constructor(props) {
     super(props);
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
 
 export default connect((state) => ({
   products: state.cart.products
-}))(ProductView);
+}))(Product);

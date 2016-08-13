@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
 
-export default class ProductListItem extends Component {
+export default class ShopItem extends Component {
   render() {
     return (
       <TouchableHighlight onPress={this._onPressButton.bind(this)} style={styles.item} underlayColor='whitesmoke'>
@@ -35,7 +35,7 @@ export default class ProductListItem extends Component {
   }
 
   _onPressButton() {
-    Actions.productView({product: this.props.product, title: this.props.product.name});
+    Actions.product({product: this.props.product, title: this.props.product.name});
   }
 
   _onPressCartButton() {

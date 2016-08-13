@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchProducts, addToCart } from '../actions';
-import { StyleSheet, ListView, RefreshControl, View, Image } from 'react-native';
+import { StyleSheet, ListView, RefreshControl, View, Image, Text } from 'react-native';
 
 import NavigationBar from './NavigationBar';
-import ProductListItem from './ProductListItem';
+import ShopItem from './ShopItem';
 import { KB_ORANGE } from '../constants';
 
-export default class ProductList extends Component {
+export default class Shop extends Component {
 
   constructor(props) {
     super(props);
@@ -29,8 +29,9 @@ export default class ProductList extends Component {
   }
 
   _renderList() {
-    if (this.props.products.size !== 0) {
+    if (this.props.products.length !== 0 || this.props.isFetching) {
       var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      console.log('RENDER LIST WITH PRODUCTS: '+this.props.products.length);
       return(
         <ListView
           enableEmptySections={true}
@@ -39,7 +40,7 @@ export default class ProductList extends Component {
           renderRow={(product) => {
             var cartProduct = this.props.cartProducts.find((p) => p.id == product.id);
             var cartCount = cartProduct ? cartProduct.count : undefined;
-            return <ProductListItem product={product} cartCount={cartCount} addToCartAction={this._onPressAddButton.bind(this)}/>
+            return <ShopItem product={product} cartCount={cartCount} addToCartAction={this._onPressAddButton.bind(this)}/>
           }}
           refreshControl={
             <RefreshControl
@@ -89,4 +90,4 @@ export default connect((state) => ({
   isFetching: state.products.isFetching,
   products: state.products.data,
   cartProducts: state.cart.products
-}))(ProductList);
+}))(Shop);
