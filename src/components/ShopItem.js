@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, Dimensions, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Image, Text, Dimensions, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
@@ -17,11 +17,11 @@ export default class ShopItem extends Component {
             <Text style={styles.priceContainer}>
               <Text style={styles.price}>{this.props.product.price}</Text> руб.
             </Text>
-            <TouchableHighlight onPress={this._onPressCartButton.bind(this)} underlayColor='white'>
+            <TouchableOpacity onPress={this._onPressCartButton.bind(this)}>
               <Text style={styles.cartContainer}>
                 <Icon name="ios-cart-outline" size={19} style={styles.cartButton}/> {this.props.cartCount}
               </Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
           <Text style={styles.title}>
             {this.props.product.name}
@@ -50,28 +50,26 @@ const styles = StyleSheet.create({
     // backgroundColor: '#CCC',
     padding: 10,
     width: width*.5,
-    height: width*.8
+    height: width > 320 ? width*.8 : width*.9
   },
   image: {
     height: width*.4
   },
   orderContainer: {
-    padding: 10,
+    padding: width > 320 ? 10 : 5,
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    // backgroundColor: 'aqua'
   },
   priceContainer: {
     fontSize: 17,
-    flex: .5,
+    // backgroundColor: 'burlywood',
   },
   cartContainer: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    flex: .5,
     textAlign: 'right',
     color: KB_ORANGE,
     fontSize: 19,
-    // backgroundColor: 'aqua'
+    // backgroundColor: 'beige',
   },
   cartButton: {
 
