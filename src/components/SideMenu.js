@@ -43,7 +43,7 @@ export default class SideMenu extends Component {
   }
 
   _openVK() {
-    // Linking.openURL('https://vk.com/karl_burgers').catch(err => console.error('An error occurred', err));
+    // http://handleopenurl.com/scheme/vk
     Linking.canOpenURL('vk://vk.com/karl_burgers').then(supported => {
       if (!supported) {
         console.log('Can\'t handle url: vk:karl_burgers');

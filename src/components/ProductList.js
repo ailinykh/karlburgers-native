@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchProducts, addToCart } from '../actions';
 import { StyleSheet, ListView, RefreshControl, View, Image } from 'react-native';
+
+import NavigationBar from './NavigationBar';
 import ProductListItem from './ProductListItem';
 import { KB_ORANGE } from '../constants';
 
@@ -56,6 +58,10 @@ export default class ProductList extends Component {
 
   _onPressAddButton(product) {
     this.props.dispatch(addToCart(product));
+  }
+
+  static renderNavigationBar(props) {
+    return <NavigationBar {...props} />
   }
 }
 
