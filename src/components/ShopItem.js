@@ -50,7 +50,9 @@ const styles = StyleSheet.create({
     // backgroundColor: '#CCC',
     padding: 10,
     width: width*.5,
-    height: width > 320 ? width*.8 : width*.9
+    height: width > 320 ? width*.85 : width*.9,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
   image: {
     height: width*.4
@@ -66,6 +68,8 @@ const styles = StyleSheet.create({
     // backgroundColor: 'burlywood',
   },
   cartContainer: {
+    paddingLeft: 10,
+    paddingRight: 10,
     textAlign: 'right',
     color: KB_ORANGE,
     fontSize: 19,
