@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, ScrollView, ListView, View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Actions } from 'react-native-router-flux';
 import { Button } from 'native-base';
 import { addToCart, removeFromCart } from '../actions';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
@@ -34,7 +35,8 @@ export default class Cart extends Component {
           />
           <Button
             block
-            style={{margin: 25}}>
+            style={{margin: 25}}
+            onPress={() => Actions.order()}>
             {buttonText}
           </Button>
         </View>

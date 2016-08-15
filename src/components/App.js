@@ -9,6 +9,7 @@ import Shop from './Shop';
 import Product from './Product';
 import About from './About';
 import Cart from './Cart';
+import Order from './Order';
 
 const store = configureStore();
 
@@ -46,6 +47,11 @@ export default class App extends Component {
               key="cart"
               component={Cart}
               title="Корзина"/>
+            <Scene
+              key="order"
+              component={Order}
+              initial
+              title="Заказ"/>
           </Scene>
         </Router>
       </Provider>
