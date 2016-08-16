@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, ScrollView, ListView, View, Text, Image, Dimensions, TouchableHighlight, KeyboardAvoidingView, Keyboard } from 'react-native';
-import { Button } from 'native-base';
+import { StyleSheet, ScrollView, ListView, View, Text, Image, TextInput, TouchableHighlight, KeyboardAvoidingView, Keyboard, Alert } from 'react-native';
+import { Button, Icon } from 'native-base';
 import t from 'tcomb-form-native';
 import _ from 'lodash';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
@@ -38,6 +38,7 @@ export default class Order extends Component {
     this._onFormSubmit = this._onFormSubmit.bind(this);
     this._onFormChange = this._onFormChange.bind(this);
     this._onInputFocus = this._onInputFocus.bind(this);
+    this._onLocationButtonPressed = this._onLocationButtonPressed.bind(this)
 
     var options = {
       fields: {
@@ -76,6 +77,7 @@ export default class Order extends Component {
           error: 'Необходимо указать адрес',
           returnKeyType: 'next',
           autoCorrect: false,
+          clearButtonMode: 'while-editing',
           onSubmitEditing: (event) => {
             this.refs.form.getComponent('home').refs.input.focus();
           },
@@ -86,6 +88,8 @@ export default class Order extends Component {
           error: 'Необходимо указать номер дома',
           returnKeyType: 'next',
           autoCorrect: false,
+          clearButtonMode: 'while-editing',
+          template: this._textFieldWithButtonTemplate.bind(this),
           onSubmitEditing: (event) => {
             this.refs.form.getComponent('note').refs.input.focus();
           },
@@ -126,6 +130,30 @@ export default class Order extends Component {
     this.subscriptions.forEach((sub) => sub.remove());
   }
 
+  render() {
+    return (
+      <ScrollView
+        ref='scrollView'
+        style={styles.container}>
+        <KeyboardAvoidingView behavior='padding' ref='keyboardAvoidingView'>
+          <Form
+            ref="form"
+            type={Person}
+            options={this.state.options}
+            value={this.state.value}
+            onChange={this._onFormChange}
+          />
+          <Button
+            block
+            style={{margin: 25}}
+            onPress={this._onFormSubmit}>
+            Оформить заказ
+          </Button>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    );
+  }
+
   _onInputFocus(event) {
     var input = event.target;
     setTimeout(()=>{
@@ -152,30 +180,6 @@ export default class Order extends Component {
     this.setState({options: options, value: value});
   }
 
-  render() {
-    return (
-      <ScrollView
-        ref='scrollView'
-        style={styles.container}>
-        <KeyboardAvoidingView behavior='padding' ref='keyboardAvoidingView'>
-          <Form
-            ref="form"
-            type={Person}
-            options={this.state.options}
-            value={this.state.value}
-            onChange={this._onFormChange}
-          />
-          <Button
-            block
-            style={{margin: 25}}
-            onPress={this._onFormSubmit}>
-            Оформить заказ
-          </Button>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    );
-  }
-
   _onFormSubmit() {
     // call getValue() to get the values of the form
     var value = this.refs.form.getValue();
@@ -198,9 +202,94 @@ export default class Order extends Component {
       console.log(value); // value here is an instance of Person
     }
   }
-}
 
-var width = Dimensions.get('window').width;
+  _textFieldWithButtonTemplate(locals) {
+
+    var containerStyle = {};
+    var labelStyle = t.form.Form.stylesheet.controlLabel.normal;
+    var textboxStyle = {...t.form.Form.stylesheet.textbox.normal, flex: 1};
+
+    return (
+      <View style={containerStyle}>
+        <Text style={labelStyle}>{locals.label}</Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <TextInput
+            style={textboxStyle}
+            accessibilityLabel={locals.label}
+            ref="input"
+            autoCapitalize={locals.autoCapitalize}
+            autoCorrect={locals.autoCorrect}
+            autoFocus={locals.autoFocus}
+            blurOnSubmit={locals.blurOnSubmit}
+            editable={locals.editable}
+            keyboardType={locals.keyboardType}
+            maxLength={locals.maxLength}
+            multiline={locals.multiline}
+            onBlur={locals.onBlur}
+            onEndEditing={locals.onEndEditing}
+            onFocus={locals.onFocus}
+            onLayout={locals.onLayout}
+            onSelectionChange={locals.onSelectionChange}
+            onSubmitEditing={locals.onSubmitEditing}
+            placeholderTextColor={locals.placeholderTextColor}
+            secureTextEntry={locals.secureTextEntry}
+            selectTextOnFocus={locals.selectTextOnFocus}
+            selectionColor={locals.selectionColor}
+            numberOfLines={locals.numberOfLines}
+            underlineColorAndroid={locals.underlineColorAndroid}
+            clearButtonMode={locals.clearButtonMode}
+            clearTextOnFocus={locals.clearTextOnFocus}
+            enablesReturnKeyAutomatically={locals.enablesReturnKeyAutomatically}
+            keyboardAppearance={locals.keyboardAppearance}
+            onKeyPress={locals.onKeyPress}
+            returnKeyType={locals.returnKeyType}
+            selectionState={locals.selectionState}
+            onChangeText={(value) => locals.onChange(value)}
+            onChange={locals.onChangeNative}
+            placeholder={locals.placeholder}
+            value={locals.value}/>
+          <Button
+            onPress={this._onLocationButtonPressed}
+            transparent>
+            <Icon name='md-locate'/>
+          </Button>
+        </View>
+      </View>
+    );
+  }
+
+  _onLocationButtonPressed() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { longitude, latitude } = position.coords;
+        fetch(`https://geocode-maps.yandex.ru/1.x/?format=json&kind=house&geocode=${longitude},${latitude}`)
+          .then((response) => response.json())
+          .then((responseJson) => {
+            const featureMember = responseJson.response.GeoObjectCollection.featureMember;
+            var locations = featureMember.map((f) => {
+              let tf = f.GeoObject.metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.Thoroughfare;
+              return {
+                text: [tf.ThoroughfareName, tf.Premise.PremiseNumber].join(', '),
+                onPress: () => this._setDeliveryAddress(tf.ThoroughfareName, tf.Premise.PremiseNumber)
+              }
+            }).slice(0, 5);
+            locations.push({text: 'Отмена'});
+            Alert.alert('Адрес доставки', null, locations);
+          })
+          .catch((error) => {
+            Alert.alert('Ошибка', 'Не удалось определить адрес');
+            console.error(error);
+          });
+      },
+      (error) => alert(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    );
+  }
+
+  _setDeliveryAddress(street, home) {
+    this.setState({value: {...this.state.value, street, home}});
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
