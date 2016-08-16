@@ -49,6 +49,7 @@ export default class Order extends Component {
           autoCorrect: false,
           autoFocus: true,
           enablesReturnKeyAutomatically: true,
+          clearButtonMode: 'while-editing',
           onSubmitEditing: (event) => {
             this.refs.form.getComponent('phone').refs.input.focus();
           },
@@ -59,6 +60,7 @@ export default class Order extends Component {
           error: 'Необходимо указать номер телефона',
           placeholder: '+7 999 999-99-99',
           keyboardType: 'phone-pad',
+          clearButtonMode: 'while-editing',
           onFocus: this._onInputFocus,
         },
         paymentType: {
