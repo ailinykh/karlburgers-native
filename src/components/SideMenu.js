@@ -16,11 +16,11 @@ export default class SideMenu extends Component {
     return (
       <ScrollView style={styles.container} scrollsToTop={false}>
         <View style={styles.separator}/>
-        <TouchableHighlight onPress={() => {console.log(this.drawer);this.drawer.close(); Actions.shop();}} underlayColor={KB_ORANGE_DARK}>
+        <TouchableHighlight onPress={() => {this.drawer.close(); Actions.shop();}} underlayColor={KB_ORANGE_DARK}>
           <Text style={styles.row}>МЕНЮ</Text>
         </TouchableHighlight>
         <View style={styles.separator}/>
-        <TouchableHighlight onPress={() => {console.log(this.drawer);this.drawer.close(); Actions.about();}} underlayColor={KB_ORANGE_DARK}>
+        <TouchableHighlight onPress={() => {this.drawer.close(); Actions.about();}} underlayColor={KB_ORANGE_DARK}>
           <Text style={styles.row}>КАК НАС НАЙТИ</Text>
         </TouchableHighlight>
         <View style={styles.separator}/>

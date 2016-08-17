@@ -199,16 +199,6 @@ export default class Order extends Component {
       }
     });
     this.setState({options: options, value: value});
-
-    // if (value.street !== this.state.value.street) {
-    //   fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${value.street}&cityId=5700000100000&limit=10&_=${Date.now()}`)
-    //     .then((response) => response.json())
-    //     .then((responseJson) => {
-    //       console.log(responseJson.result);
-    //       this.setState({suggestedStreets: responseJson.result}, () => this.forceUpdate());
-    //     })
-    //     .catch((error) => console.error(error));
-    // }
   }
 
   _onFormSubmit() {
