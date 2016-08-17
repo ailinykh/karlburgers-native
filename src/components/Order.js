@@ -54,7 +54,6 @@ export default class Order extends Component {
     this._onFormChange = this._onFormChange.bind(this);
     this._onInputFocus = this._onInputFocus.bind(this);
     this._onLocationButtonPressed = this._onLocationButtonPressed.bind(this);
-    this._onHomeInputChange = this._onHomeInputChange.bind(this);
 
     var options = {
       fields: {
@@ -111,7 +110,6 @@ export default class Order extends Component {
             this.refs.form.getComponent('note').refs.input.focus();
           },
           onFocus: this._onInputFocus,
-          onChange: this._onHomeInputChange,
         },
         note: {
           label: 'Примечание к заказу',
@@ -244,7 +242,6 @@ export default class Order extends Component {
             fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${value}&cityId=5700000100000&limit=10&_=${Date.now()}`)
               .then((response) => response.json())
               .then((responseJson) => {
-                console.log(responseJson.result);
                 this.setState({suggestedStreets: responseJson.result}, () => this.refs.form.getComponent('street').forceUpdate());
               })
               .catch((error) => console.error(error));
@@ -306,16 +303,21 @@ export default class Order extends Component {
         fetch(`https://geocode-maps.yandex.ru/1.x/?format=json&kind=house&geocode=${longitude},${latitude}`)
           .then((response) => response.json())
           .then((responseJson) => {
+            console.log(responseJson);
             const featureMember = responseJson.response.GeoObjectCollection.featureMember;
-            var locations = featureMember.map((f) => {
-              let tf = f.GeoObject.metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.Thoroughfare;
-              return {
-                text: [tf.ThoroughfareName, tf.Premise.PremiseNumber].join(', '),
-                onPress: () => this._setDeliveryAddress(tf.ThoroughfareName, tf.Premise.PremiseNumber)
-              }
-            }).slice(0, 5);
-            locations.push({text: 'Отмена'});
-            Alert.alert('Адрес доставки', null, locations);
+            if (featureMember.length > 0) {
+              var locations = featureMember.map((f) => {
+                let tf = f.GeoObject.metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.Thoroughfare;
+                return {
+                  text: [tf.ThoroughfareName, tf.Premise.PremiseNumber].join(', '),
+                  onPress: () => this._setDeliveryAddress(tf.ThoroughfareName, tf.Premise.PremiseNumber)
+                }
+              }).slice(0, 5);
+              locations.push({text: 'Отмена'});
+              Alert.alert('Адрес доставки', null, locations);
+            } else {
+              Alert.alert('Ошибка', 'Не удалось определить адрес');
+            }
           })
           .catch((error) => {
             Alert.alert('Ошибка', 'Не удалось определить адрес');
@@ -329,10 +331,24 @@ export default class Order extends Component {
 
   _setDeliveryAddress(street, home) {
     this.setState({value: {...this.state.value, street, home}});
-  }
 
-  _onHomeInputChange(e) {
-    console.log(this.state.value.home);
+    const types = ['аллея', 'бульвар', 'набережная', 'переулок', 'проезд', 'проспект', 'тупик', 'шоссе', 'улица'];
+    var type = types.find((t) => street.indexOf(t) !== -1)
+    if (type) {
+      streetName = street.replace(type, '').trim();
+      fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${streetName}&cityId=5700000100000&limit=10&_=${Date.now()}`)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          responseJson.result.forEach((obj) => {
+            if (obj.type.toLowerCase() == type) {
+              this.setState({streetClassifierId: obj.id}, () => {
+                console.log(this.state);
+              });
+            }
+          });
+        })
+        .catch((error) => console.error(error));
+    }
   }
 }
 
