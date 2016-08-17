@@ -13,12 +13,14 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Alert,
+  AsyncStorage,
   Dimensions } from 'react-native';
 import DismissKeyboard from 'dismissKeyboard';
 import { Button, Icon } from 'native-base';
 import t from 'tcomb-form-native';
 import _ from 'lodash';
 import Autocomplete from 'react-native-autocomplete-input';
+import { Actions } from 'react-native-router-flux';
 import { KLADR_API_KEY } from '../constants';
 
 var Form = t.form.Form;
@@ -122,6 +124,15 @@ export default class Order extends Component {
       },
     };
 
+    AsyncStorage.multiGet(['name', 'phone', 'paymentType', 'orderType', 'note'], (err, stores) => {
+      stores.map((store) => {
+        let obj = {};
+        obj[store[0]] = store[1];
+        this.setState({value: Object.assign({}, this.state.value, obj)});
+      });
+      this._onFormChange(this.state.value);
+    })
+
     this.state = {
       options,
       value: {
@@ -219,10 +230,22 @@ export default class Order extends Component {
         }
       }
       console.log(value); // value here is an instance of Person
+      var order = {...value, products: this.props.products, streetClassifierId: this.state.streetClassifierId};
+      AsyncStorage.multiSet([
+        ['name', order.name],
+        ['phone', order.phone.toString()],
+        ['paymentType', order.paymentType],
+        ['orderType', order.orderType],
+        ['note', order.note]
+      ]);
+      Actions.orderPreview({order: order});
     }
   }
 
   _textFieldForStreetTemplate(locals) {
+    if (locals.hidden) {
+      return null;
+    }
 
     var labelStyle = t.form.Form.stylesheet.controlLabel.normal;
     var textboxStyle = {...t.form.Form.stylesheet.textbox.normal, flex: 1};
@@ -265,6 +288,9 @@ export default class Order extends Component {
   }
 
   _textFieldWithButtonTemplate(locals) {
+    if (locals.hidden) {
+      return null;
+    }
 
     var containerStyle = {};
     var labelStyle = t.form.Form.stylesheet.controlLabel.normal;
@@ -303,7 +329,6 @@ export default class Order extends Component {
         fetch(`https://geocode-maps.yandex.ru/1.x/?format=json&kind=house&geocode=${longitude},${latitude}`)
           .then((response) => response.json())
           .then((responseJson) => {
-            console.log(responseJson);
             const featureMember = responseJson.response.GeoObjectCollection.featureMember;
             if (featureMember.length > 0) {
               var locations = featureMember.map((f) => {
@@ -341,9 +366,7 @@ export default class Order extends Component {
         .then((responseJson) => {
           responseJson.result.forEach((obj) => {
             if (obj.type.toLowerCase() == type) {
-              this.setState({streetClassifierId: obj.id}, () => {
-                console.log(this.state);
-              });
+              this.setState({streetClassifierId: obj.id});
             }
           });
         })
@@ -366,4 +389,5 @@ const styles = StyleSheet.create({
 });
 
 export default connect((state) => ({
+  products: state.cart.products
 }))(Order);

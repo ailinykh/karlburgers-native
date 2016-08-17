@@ -10,6 +10,7 @@ import Product from './Product';
 import About from './About';
 import Cart from './Cart';
 import Order from './Order';
+import OrderPreview from './OrderPreview';
 
 const store = configureStore();
 
@@ -52,6 +53,10 @@ export default class App extends Component {
               component={Order}
               initial
               title="Заказ"/>
+            <Scene
+              key="orderPreview"
+              component={OrderPreview}
+              title="Отправить заказ"/>
           </Scene>
         </Router>
       </Provider>
