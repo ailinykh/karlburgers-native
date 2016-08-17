@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Text, AsyncStorage } from 'react-native';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
+import { addOrderToHistory } from '../actions';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
 import { Button, Icon, List, ListItem } from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -85,20 +86,9 @@ export default class OrderPreview extends Component {
 
   _onButtonPress() {
     const { order } = this.props;
-    console.log('ORDER SENT!');
-    this._saveOrderToHistory(order);
-  }
-
-  _saveOrderToHistory(order) {
-    AsyncStorage.getItem('OrderHistory', (err, result) => {
-      var orders = [];
-      if (result) {
-        orders = JSON.parse(result).filter((o) => !_.isEqual(order.products, o.products));
-      }
-      orders.unshift(order);
-      AsyncStorage.setItem('OrderHistory', JSON.stringify(orders));
-      console.log(orders);
-    })
+    this.props.dispatch(addOrderToHistory(order));
+    Actions.drawer({type: ActionConst.BACK, popNum: 3});
+    // Actions.pop();
   }
 }
 

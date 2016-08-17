@@ -1,4 +1,5 @@
 import { IIKO_RESTARAUNT_ID } from '../constants';
+import { AsyncStorage } from 'react-native';
 
 export const REQUEST_PRODUCTS = "REQUEST_PRODUCTS";
 export const RECEIVE_PRODUCTS= "RECEIVE_PRODUCTS";
@@ -49,3 +50,36 @@ export const removeFromCart = (product: Object): Object => {
     product
   }
 }
+
+export const REQUEST_ORDER_HISTORY = "REQUEST_ORDER_HISTORY";
+export const RECEIVE_ORDER_HISTORY= "RECEIVE_ORDER_HISTORY";
+export const ADD_ORDER_TO_HISTORY= "ADD_ORDER_TO_HISTORY";
+
+export const requestOrderHistory = (): Object => {
+  return {
+    type: REQUEST_ORDER_HISTORY
+  };
+};
+
+export const receiveOrderHistory = (data: Object): Object => {
+  return {
+    type: RECEIVE_ORDER_HISTORY,
+    data
+  };
+};
+
+export const addOrderToHistory = (data: Object): Object => {
+  return {
+    type: ADD_ORDER_TO_HISTORY,
+    data
+  };
+};
+
+export const fetchOrderToHistory = (): Function => {
+  return (dispatch) => {
+    dispatch(requestOrderHistory());
+    return AsyncStorage.getItem('OrderHistory', (err, result) => {
+      dispatch(receiveOrderHistory(result ? JSON.parse(result) : []));
+    })
+  };
+};

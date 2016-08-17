@@ -20,7 +20,7 @@ import { Button, Icon } from 'native-base';
 import t from 'tcomb-form-native';
 import _ from 'lodash';
 import Autocomplete from 'react-native-autocomplete-input';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { KLADR_API_KEY } from '../constants';
 
 var Form = t.form.Form;
@@ -125,7 +125,7 @@ export default class Order extends Component {
     };
     // Restore some user information
     AsyncStorage.multiGet(['name', 'phone', 'paymentType', 'orderType', 'note'], (err, stores) => {
-      stores.map((store) => {
+      stores.filter((store) => store[1] !== null).map((store) => {
         let obj = {};
         obj[store[0]] = store[1];
         this.setState({value: Object.assign({}, this.state.value, obj)});

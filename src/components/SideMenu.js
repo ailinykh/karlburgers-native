@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, ScrollView, View, Text, TouchableHighlight, TouchableOpacity, Linking } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { fetchOrderToHistory } from '../actions';
 import { KB_ORANGE, KB_ORANGE_DARK } from '../constants';
 
 export default class SideMenu extends Component {
@@ -10,6 +11,8 @@ export default class SideMenu extends Component {
   constructor(props, context) {
     super(props, context);
     this.drawer = context.drawer;
+
+    this.props.dispatch(fetchOrderToHistory());
   }
 
   render() {
@@ -36,7 +39,21 @@ export default class SideMenu extends Component {
         <View style={styles.headerContainer}>
           <Text style={styles.header}>Последние заказы</Text>
         </View>
-        <Text style={styles.row}>Нет заказов</Text>
+        {
+          this.props.orders ?
+            this.props.orders.map((order, i) =>
+              <View key={i}>
+                <View style={styles.separator}/>
+                <TouchableHighlight onPress={() => {this.drawer.close(); Actions.orderPreview({order, type: ActionConst.PUSH});}} underlayColor={KB_ORANGE_DARK}>
+                  <Text
+                    style={styles.row}>
+                    {order.products.map((p) => p.name).join(', ')}
+                  </Text>
+                </TouchableHighlight>
+            </View>
+            )
+          : <Text style={styles.row}>Нет заказов</Text>
+        }
         <View style={styles.separator}/>
       </ScrollView>
     );
@@ -94,3 +111,7 @@ const styles = StyleSheet.create({
     paddingLeft:15,
   }
 });
+
+export default connect((state) => ({
+  orders: state.orderHistory.orders
+}))(SideMenu);

@@ -1,0 +1,192 @@
+http://deliverywiget.iiko.ru/Orders/AddOrder/5c77b3eb-0b8b-11e6-80c8-d8d385655247
+
+CASH, ADDRESS
+{
+  "restaraunt": "5c77b3eb-0b8b-11e6-80c8-d8d385655247",
+  "order": {
+    "id": "cd9be688-e939-458f-b975-258414a22f13",
+    "phone": "+78005553535",
+    "orderType": "address",
+    "address": {
+      "street": "улица карачевская",
+      "streetClassifierId": null,
+      "home": "12/3",
+      "city": "Орел",
+      "cityId": "5700000100000"
+    },
+    "date": null,
+    "items": [
+      {
+        "id": "396beeeb-6ace-4d34-b006-3bd22648005c",
+        "name": "Карл-Бургер",
+        "code": "00074",
+        "amount": 2,
+        "category": "Бургеры",
+        "modifiers": []
+      }
+    ],
+    "paymentItems": null,
+    "isSelfService": "false",
+    "personsCount": 0,
+    "comment": "ТЕСТОВЫЙ ЗАКАЗ! НЕ ГОТОВИТЬ!"
+  },
+  "customer": {
+    "id": null,
+    "phone": "+78005553535",
+    "name": "ТЕСТОВЫЙ ЗАКАЗ"
+  }
+}
+
+CARD, ADDRESS
+
+{
+  "restaraunt": "5c77b3eb-0b8b-11e6-80c8-d8d385655247",
+  "order": {
+    "id": "888a4510-5952-4738-966a-a2301410989d",
+    "phone": "+78005553535",
+    "orderType": "address",
+    "address": {
+      "street": "улица карачевская",
+      "streetClassifierId": null,
+      "home": "12/3",
+      "city": "Орел",
+      "cityId": "5700000100000"
+    },
+    "date": null,
+    "items": [
+      {
+        "id": "396beeeb-6ace-4d34-b006-3bd22648005c",
+        "name": "Карл-Бургер",
+        "code": "00074",
+        "amount": 1,
+        "category": "Бургеры",
+        "modifiers": []
+      }
+    ],
+    "paymentItems": [
+      {
+        "paymentType": {
+          "id": "692b19c9-735e-0558-bc8e-7db97f1bed79",
+          "code": "CARD",
+          "name": "Банковская карта",
+          "comment": "",
+          "combinable": false
+        },
+        "sum": 270
+      }
+    ],
+    "isSelfService": "false",
+    "personsCount": 0,
+    "comment": "ТЕСТОВЫЙ ЗАКАЗ! НЕ ГОТОВИТЬ!"
+  },
+  "customer": {
+    "id": null,
+    "phone": "+78005553535",
+    "name": "ТЕСТОВЫЙ ЗАКАЗ"
+  }
+}
+
+CASH, SELF-SERVICE
+
+{
+  "restaraunt": "5c77b3eb-0b8b-11e6-80c8-d8d385655247",
+  "order": {
+    "id": "7df18fe6-3f59-4119-9d0d-028935f01d4d",
+    "phone": "+78005553535",
+    "orderType": "self",
+    "address": {
+      "street": "улица карачевская",
+      "streetClassifierId": null,
+      "home": "12/3",
+      "city": "Орел",
+      "cityId": "5700000100000"
+    },
+    "date": null,
+    "items": [
+      {
+        "id": "396beeeb-6ace-4d34-b006-3bd22648005c",
+        "name": "Карл-Бургер",
+        "code": "00074",
+        "amount": 1,
+        "category": "Бургеры",
+        "modifiers": []
+      },
+      {
+        "id": "5e65b415-7c8d-4832-8f56-dcd97e181c57",
+        "name": "Классика жанра",
+        "code": "00083",
+        "amount": 1,
+        "category": "Бургеры",
+        "modifiers": []
+      }
+    ],
+    "paymentItems": null,
+    "isSelfService": "true",
+    "personsCount": 0,
+    "comment": "ТЕСТОВЫЙ ЗАКАЗ! НЕ ГОТОВИТЬ!"
+  },
+  "customer": {
+    "id": null,
+    "phone": "+78005553535",
+    "name": "ТЕСТОВЫЙ ЗАКАЗ"
+  },
+  "deliveryTerminalId": "1812d21f-f1e9-8999-0153-4dc2af5a823e"
+}
+
+CARD, SELF-SERVICE
+
+{
+  "restaraunt": "5c77b3eb-0b8b-11e6-80c8-d8d385655247",
+  "order": {
+    "id": "c154cce3-7393-4e05-938b-5a0a9cd7e98c",
+    "phone": "+78005553535",
+    "orderType": "self",
+    "address": {
+      "street": "улица карачевская",
+      "streetClassifierId": null,
+      "home": "12/3",
+      "city": "Орел",
+      "cityId": "5700000100000"
+    },
+    "date": null,
+    "items": [
+      {
+        "id": "b5bcdca1-4d2b-4a9d-a40f-6bf61fda038b",
+        "name": "Море-море",
+        "code": "00072",
+        "amount": 1,
+        "category": "Бургеры",
+        "modifiers": []
+      },
+      {
+        "id": "02a6dcfa-98a6-403f-9160-db56af9c8670",
+        "name": "Рога и копыта",
+        "code": "00079",
+        "amount": 1,
+        "category": "Бургеры",
+        "modifiers": []
+      }
+    ],
+    "paymentItems": [
+      {
+        "paymentType": {
+          "id": "692b19c9-735e-0558-bc8e-7db97f1bed79",
+          "code": "CARD",
+          "name": "Банковская карта",
+          "comment": "",
+          "combinable": false
+        },
+        "sum": 490
+      }
+    ],
+    "isSelfService": "true",
+    "personsCount": 0,
+    "comment": "ТЕСТОВЫЙ ЗАКАЗ! НЕ ГОТОВИТЬ!"
+  },
+  "customer": {
+    "id": null,
+    "phone": "+78005553535",
+    "name": "ТЕСТОВЫЙ ЗАКАЗ"
+  },
+  "deliveryTerminalId": "1812d21f-f1e9-8999-0153-4dc2af5a823e"
+}

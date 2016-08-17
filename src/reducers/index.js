@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { AsyncStorage } from 'react-native';
 import * as types from '../actions';
 
 const products = (state = {
@@ -61,9 +62,37 @@ const cart = (state = {
   }
 }
 
+const orderHistory = (state = {
+  isFetching: false,
+  orders: []
+}, action) => {
+  switch (action.type) {
+    case types.REQUEST_ORDER_HISTORY:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case types.RECEIVE_ORDER_HISTORY:
+      return {
+        ...state,
+        orders: action.data
+      }
+    case types.ADD_ORDER_TO_HISTORY:
+      var orders = state.orders.filter((o) => !_.isEqual(action.data.products, o.products)).slice(0, 2);
+      orders.unshift(action.data);
+      AsyncStorage.setItem('OrderHistory', JSON.stringify(orders));
+      return {
+        ...state,
+        orders: orders
+      }
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   products,
   cart,
+  orderHistory,
 });
 
 export default rootReducer;
