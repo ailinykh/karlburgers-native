@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Image, Text, Dimensions, WebView } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
 import { Button, Icon, List, ListItem } from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
+import _ from 'lodash';
 
 export default class OrderPreview extends Component {
 
   constructor(props) {
     super(props);
+    this._onButtonPress = this._onButtonPress.bind(this);
   }
 
   render() {
@@ -82,11 +84,23 @@ export default class OrderPreview extends Component {
   }
 
   _onButtonPress() {
+    const { order } = this.props;
     console.log('ORDER SENT!');
+    this._saveOrderToHistory(order);
+  }
+
+  _saveOrderToHistory(order) {
+    AsyncStorage.getItem('OrderHistory', (err, result) => {
+      var orders = [];
+      if (result) {
+        orders = JSON.parse(result).filter((o) => !_.isEqual(order.products, o.products));
+      }
+      orders.unshift(order);
+      AsyncStorage.setItem('OrderHistory', JSON.stringify(orders));
+      console.log(orders);
+    })
   }
 }
-
-var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
