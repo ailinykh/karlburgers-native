@@ -7,7 +7,7 @@ import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
 export default class ShopItem extends Component {
   render() {
     return (
-      <TouchableHighlight onPress={this._onPressButton.bind(this)} style={styles.item} underlayColor='whitesmoke'>
+      <TouchableHighlight onPress={() => Actions.product({product: this.props.product, title: this.props.product.name})} style={styles.item} underlayColor='whitesmoke'>
         <View>
           <Image style={styles.image}
             resizeMode={Image.resizeMode.contain}
@@ -17,7 +17,7 @@ export default class ShopItem extends Component {
             <Text style={styles.priceContainer}>
               <Text style={styles.price}>{this.props.product.price}</Text> руб.
             </Text>
-            <TouchableOpacity onPress={this._onPressCartButton.bind(this)}>
+            <TouchableOpacity onPress={() => this.props.addToCartAction(this.props.product)}>
               <Text style={styles.cartContainer}>
                 <Icon name="ios-cart-outline" size={19} style={styles.cartButton}/> {this.props.cartCount}
               </Text>
@@ -32,14 +32,6 @@ export default class ShopItem extends Component {
         </View>
       </TouchableHighlight>
     );
-  }
-
-  _onPressButton() {
-    Actions.product({product: this.props.product, title: this.props.product.name});
-  }
-
-  _onPressCartButton() {
-    this.props.addToCartAction(this.props.product);
   }
 }
 

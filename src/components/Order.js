@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, ScrollView, ListView, View, Text, Image, TextInput, TouchableHighlight, KeyboardAvoidingView, Keyboard, Alert } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  ListView,
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Keyboard,
+  Alert,
+  Dimensions } from 'react-native';
+import DismissKeyboard from 'dismissKeyboard';
 import { Button, Icon } from 'native-base';
 import t from 'tcomb-form-native';
 import _ from 'lodash';
-import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
+import Autocomplete from 'react-native-autocomplete-input';
+import { KLADR_API_KEY } from '../constants';
 
 var Form = t.form.Form;
 const stylesheet = _.cloneDeep(t.form.Form.stylesheet)
@@ -38,7 +53,8 @@ export default class Order extends Component {
     this._onFormSubmit = this._onFormSubmit.bind(this);
     this._onFormChange = this._onFormChange.bind(this);
     this._onInputFocus = this._onInputFocus.bind(this);
-    this._onLocationButtonPressed = this._onLocationButtonPressed.bind(this)
+    this._onLocationButtonPressed = this._onLocationButtonPressed.bind(this);
+    this._onHomeInputChange = this._onHomeInputChange.bind(this);
 
     var options = {
       fields: {
@@ -48,7 +64,7 @@ export default class Order extends Component {
           placeholder: 'Фридрих Энгельс',
           returnKeyType: 'next',
           autoCorrect: false,
-          autoFocus: true,
+          // autoFocus: true,
           enablesReturnKeyAutomatically: true,
           clearButtonMode: 'while-editing',
           onSubmitEditing: (event) => {
@@ -78,6 +94,7 @@ export default class Order extends Component {
           returnKeyType: 'next',
           autoCorrect: false,
           clearButtonMode: 'while-editing',
+          template: this._textFieldForStreetTemplate.bind(this),
           onSubmitEditing: (event) => {
             this.refs.form.getComponent('home').refs.input.focus();
           },
@@ -94,6 +111,7 @@ export default class Order extends Component {
             this.refs.form.getComponent('note').refs.input.focus();
           },
           onFocus: this._onInputFocus,
+          onChange: this._onHomeInputChange,
         },
         note: {
           label: 'Примечание к заказу',
@@ -118,7 +136,7 @@ export default class Order extends Component {
   componentWillMount() {
     this.subscriptions = [
       Keyboard.addListener('keyboardWillChangeFrame', (event) => {
-        if (event && event.endCoordinates && event.endCoordinates.screenY == 667) {
+        if (event && event.endCoordinates && event.endCoordinates.screenY == Dimensions.get('window').height) {
           var kb = this.refs.keyboardAvoidingView;
           setTimeout(() => kb.setState({bottom: 0}), 0); // KeyboardAvoidingView bugfix
         }
@@ -134,6 +152,8 @@ export default class Order extends Component {
     return (
       <ScrollView
         ref='scrollView'
+        keyboardShouldPersistTaps={true}
+        keyboardDismissMode='on-drag'
         style={styles.container}>
         <KeyboardAvoidingView behavior='padding' ref='keyboardAvoidingView'>
           <Form
@@ -155,12 +175,13 @@ export default class Order extends Component {
   }
 
   _onInputFocus(event) {
+    // TODO: https://gist.github.com/dbasedow/f5713763802e27fbde3fc57a600adcd3 try this!
     var input = event.target;
     setTimeout(()=>{
       let scrollResponder=this.refs.scrollView.getScrollResponder();
       scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
         input,
-        150, //additionalOffset
+        130, //additionalOffset
         true
       );
     }, 50)
@@ -178,6 +199,16 @@ export default class Order extends Component {
       }
     });
     this.setState({options: options, value: value});
+
+    // if (value.street !== this.state.value.street) {
+    //   fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${value.street}&cityId=5700000100000&limit=10&_=${Date.now()}`)
+    //     .then((response) => response.json())
+    //     .then((responseJson) => {
+    //       console.log(responseJson.result);
+    //       this.setState({suggestedStreets: responseJson.result}, () => this.forceUpdate());
+    //     })
+    //     .catch((error) => console.error(error));
+    // }
   }
 
   _onFormSubmit() {
@@ -201,6 +232,49 @@ export default class Order extends Component {
       }
       console.log(value); // value here is an instance of Person
     }
+  }
+
+  _textFieldForStreetTemplate(locals) {
+
+    var labelStyle = t.form.Form.stylesheet.controlLabel.normal;
+    var textboxStyle = {...t.form.Form.stylesheet.textbox.normal, flex: 1};
+    var data = this.state.suggestedStreets;
+
+    return (
+      <View>
+        <Text style={labelStyle}>{locals.label}</Text>
+        <Autocomplete
+          style={textboxStyle}
+          inputContainerStyle={{borderWidth:0, margin: 0}}
+          listStyle={{margin: 0}}
+          data={data}
+          defaultValue={locals.value}
+          onChangeText={(value) => {
+            locals.onChange(value);
+            fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${value}&cityId=5700000100000&limit=10&_=${Date.now()}`)
+              .then((response) => response.json())
+              .then((responseJson) => {
+                console.log(responseJson.result);
+                this.setState({suggestedStreets: responseJson.result}, () => this.refs.form.getComponent('street').forceUpdate());
+              })
+              .catch((error) => console.error(error));
+          }}
+          onFocus={locals.onFocus}
+          renderItem={data => (
+            <TouchableOpacity onPress={() => {
+              this.setState({streetClassifierId: data.id});
+              locals.onChange([data.name, data.typeShort].join(', '));
+              DismissKeyboard();
+            }}>
+              <View style={{flexDirection: 'row', padding: 5}}>
+                <Text style={{fontWeight: 'bold'}}>{data.name}</Text>
+                <Text>, {data.typeShort}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    );
   }
 
   _textFieldWithButtonTemplate(locals) {
@@ -288,6 +362,10 @@ export default class Order extends Component {
 
   _setDeliveryAddress(street, home) {
     this.setState({value: {...this.state.value, street, home}});
+  }
+
+  _onHomeInputChange(e) {
+    console.log(this.state.value.home);
   }
 }
 

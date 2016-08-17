@@ -13,6 +13,8 @@ export default class Shop extends Component {
     super(props);
     this.props.dispatch(fetchProducts());
 
+    this._onPressAddButton = this._onPressAddButton.bind(this);
+
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {ds};
   }
@@ -33,7 +35,6 @@ export default class Shop extends Component {
 
   _renderList() {
     if (this.props.products.length !== 0 || this.props.isFetching) {
-      console.log('RENDER LIST WITH PRODUCTS: '+this.props.products.length);
       return(
         <ListView
           enableEmptySections={true}
@@ -42,7 +43,7 @@ export default class Shop extends Component {
           renderRow={(product) => {
             var cartProduct = this.props.cartProducts.find((p) => p.id == product.id);
             var cartCount = cartProduct ? cartProduct.count : undefined;
-            return <ShopItem product={product} cartCount={cartCount} addToCartAction={this._onPressAddButton.bind(this)}/>
+            return <ShopItem product={product} cartCount={cartCount} addToCartAction={this._onPressAddButton}/>
           }}
           refreshControl={
             <RefreshControl
