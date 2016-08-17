@@ -32,31 +32,29 @@ export default class Product extends Component {
         <Text style={styles.price}>{this.props.product.price} руб.</Text>
         <View style={styles.controls}>
           <View/>
-          <Button style={styles.buttonAdd} onPress={this._onPressAddButton.bind(this)}><Icon name="md-add"/></Button>
-          <Text style={{ paddingTop:10, fontSize:17 }}>В корзине: {this.state.cartCount}</Text>
-          <Button style={styles.buttonRemove} onPress={this._onPressRemoveButton.bind(this)}><Icon name="md-remove" style={{color:'black'}}/></Button>
+            <Button
+              style={styles.buttonAdd}
+              onPress={() => this.props.dispatch(addToCart(this.props.product))}
+            >
+              <Icon name="md-add"/>
+            </Button>
+            <Text style={{ paddingTop:10, fontSize:17 }}>В корзине: {this.state.cartCount}</Text>
+            <Button
+              style={styles.buttonRemove}
+              onPress={() => this.props.dispatch(removeFromCart(this.props.product))}
+            >
+              <Icon name="md-remove" style={{color:'black'}}/>
+            </Button>
           <View/>
         </View>
         <WebView
           style={{height: this.state.webViewHeight}}
           injectedJavaScript="document.body.scrollHeight;"
           scrollEnabled={false}
-          onNavigationStateChange={this._updateWebViewHeight.bind(this)}
+          onNavigationStateChange={(event) => this.setState({webViewHeight: parseInt(event.jsEvaluationValue)})}
           source={{html: `<html><body style="font-family: HelveticaNeue, san-serif">${this.props.product.description.replace(/(\n<br>)+/g, '<br/>').replace(/img\ssrc/g, 'img style="max-width:100%; margin-top:5px;" src')}</body></html>`}}/>
       </ScrollView>
     );
-  }
-
-  _onPressAddButton() {
-    this.props.dispatch(addToCart(this.props.product));
-  }
-
-  _onPressRemoveButton() {
-    this.props.dispatch(removeFromCart(this.props.product));
-  }
-
-  _updateWebViewHeight(event) {
-    this.setState({webViewHeight: parseInt(event.jsEvaluationValue)})
   }
 }
 

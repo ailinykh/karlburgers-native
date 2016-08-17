@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#CCC',
     padding: 10,
     width: width*.5,
-    height: width > 320 ? width*.85 : width*.9,
+    height: width > 320 ? width*.85 : width*.92,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
