@@ -123,7 +123,7 @@ export default class Order extends Component {
         }
       },
     };
-
+    // Restore some user information
     AsyncStorage.multiGet(['name', 'phone', 'paymentType', 'orderType', 'note'], (err, stores) => {
       stores.map((store) => {
         let obj = {};
@@ -229,15 +229,22 @@ export default class Order extends Component {
           return;
         }
       }
-      console.log(value); // value here is an instance of Person
       var order = {...value, products: this.props.products, streetClassifierId: this.state.streetClassifierId};
-      AsyncStorage.multiSet([
+      // Save user information for future orders
+      var multiset = [
         ['name', order.name],
         ['phone', order.phone.toString()],
         ['paymentType', order.paymentType],
-        ['orderType', order.orderType],
-        ['note', order.note]
-      ]);
+        ['orderType', order.orderType]
+      ];
+
+      if (order.note) {
+        multiset.push(['note', order.note]);
+      } else {
+        AsyncStorage.removeItem('note');
+      }
+
+      AsyncStorage.multiSet(multiset);
       Actions.orderPreview({order: order});
     }
   }
@@ -249,7 +256,10 @@ export default class Order extends Component {
 
     var labelStyle = t.form.Form.stylesheet.controlLabel.normal;
     var textboxStyle = {...t.form.Form.stylesheet.textbox.normal, flex: 1};
+    var errorBlockStyle = locals.stylesheet.errorBlock;
     var data = this.state.suggestedStreets;
+
+    var error = locals.hasError && locals.error ? <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>{locals.error}</Text> : null;
 
     return (
       <View>
@@ -283,6 +293,7 @@ export default class Order extends Component {
             </TouchableOpacity>
           )}
         />
+        {error}
       </View>
     );
   }
@@ -295,6 +306,9 @@ export default class Order extends Component {
     var containerStyle = {};
     var labelStyle = t.form.Form.stylesheet.controlLabel.normal;
     var textboxStyle = {...t.form.Form.stylesheet.textbox.normal, flex: 1};
+    var errorBlockStyle = locals.stylesheet.errorBlock;
+
+    var error = locals.hasError && locals.error ? <Text accessibilityLiveRegion="polite" style={errorBlockStyle}>{locals.error}</Text> : null;
 
     return (
       <View style={containerStyle}>
@@ -318,6 +332,7 @@ export default class Order extends Component {
             <Icon name='md-locate'/>
           </Button>
         </View>
+        {error}
       </View>
     );
   }

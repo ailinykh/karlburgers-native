@@ -51,7 +51,6 @@ export default class App extends Component {
             <Scene
               key="order"
               component={Order}
-              initial
               title="Заказ"/>
             <Scene
               key="orderPreview"
