@@ -57,6 +57,11 @@ const cart = (state = {
         ...state,
         products: products
       }
+    case types.FLUSH_CART:
+      return {
+        ...state,
+        products: []
+      }
     default:
       return state;
   }

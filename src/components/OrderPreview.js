@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { addOrderToHistory } from '../actions';
+import { addOrderToHistory, flushCart } from '../actions';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
 import { Button, Icon, List, ListItem } from 'native-base';
@@ -82,7 +82,8 @@ export default class OrderPreview extends Component {
   _onButtonPress = (e) => {
     const { order } = this.props;
     this.props.dispatch(addOrderToHistory(order));
-    Actions.drawer({type: ActionConst.BACK, popNum: 3});
+    this.props.dispatch(flushCart());
+    Actions.drawer({type: ActionConst.POP_TO, targetIndex:0});
     // Actions.pop();
   }
 }
