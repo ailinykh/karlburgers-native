@@ -10,11 +10,6 @@ import _ from 'lodash';
 
 export default class OrderPreview extends Component {
 
-  constructor(props) {
-    super(props);
-    this._onButtonPress = this._onButtonPress.bind(this);
-  }
-
   render() {
     const { order } = this.props;
     console.log(order);
@@ -84,7 +79,7 @@ export default class OrderPreview extends Component {
     );
   }
 
-  _onButtonPress() {
+  _onButtonPress = (e) => {
     const { order } = this.props;
     this.props.dispatch(addOrderToHistory(order));
     Actions.drawer({type: ActionConst.BACK, popNum: 3});
