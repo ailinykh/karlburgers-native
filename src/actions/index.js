@@ -36,6 +36,7 @@ export const fetchProducts = (): Function => {
 
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const FLUSH_CART = "FLUSH_CART";
 
 export const addToCart = (product: Object): Object => {
   return {
@@ -48,6 +49,12 @@ export const removeFromCart = (product: Object): Object => {
   return {
     type: REMOVE_FROM_CART,
     product
+  }
+}
+
+export const flushCart = (): Object => {
+  return {
+    type: FLUSH_CART
   }
 }
 
