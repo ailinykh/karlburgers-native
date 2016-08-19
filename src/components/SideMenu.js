@@ -44,7 +44,7 @@ export default class SideMenu extends Component {
             this.props.orders.map((order, i) =>
               <View key={i}>
                 <View style={styles.separator}/>
-                <TouchableHighlight onPress={() => {this.drawer.close(); setTimeout(() => Actions.orderPreview({order}), 500)}} underlayColor={KB_ORANGE_DARK}>
+                <TouchableHighlight onPress={() => {this.drawer.close(); setTimeout(() => Actions.orderPreview({order, title: 'Повторный заказ'}), 500)}} underlayColor={KB_ORANGE_DARK}>
                   <Text
                     style={styles.row}>
                     {order.products.map((p) => p.name).join(', ')}
