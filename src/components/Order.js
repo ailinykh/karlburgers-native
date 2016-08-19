@@ -52,11 +52,6 @@ export default class Order extends Component {
   constructor(props) {
     super(props);
 
-    this._onFormSubmit = this._onFormSubmit.bind(this);
-    this._onFormChange = this._onFormChange.bind(this);
-    this._onInputFocus = this._onInputFocus.bind(this);
-    this._onLocationButtonPressed = this._onLocationButtonPressed.bind(this);
-
     var options = {
       fields: {
         name: {
@@ -183,7 +178,7 @@ export default class Order extends Component {
     );
   }
 
-  _onInputFocus(event) {
+  _onInputFocus = (event) => {
     // TODO: https://gist.github.com/dbasedow/f5713763802e27fbde3fc57a600adcd3 try this!
     var input = event.target;
     setTimeout(()=>{
@@ -196,7 +191,7 @@ export default class Order extends Component {
     }, 50)
   }
 
-  _onFormChange(value) {
+  _onFormChange = (value) => {
     var options = t.update(this.state.options, {
       fields: {
         street: {
@@ -210,7 +205,7 @@ export default class Order extends Component {
     this.setState({options: options, value: value});
   }
 
-  _onFormSubmit() {
+  _onFormSubmit = () => {
     // call getValue() to get the values of the form
     var value = this.refs.form.getValue();
     if (value) { // if validation fails, value will be null
@@ -246,6 +241,58 @@ export default class Order extends Component {
 
       AsyncStorage.multiSet(multiset);
       Actions.orderPreview({order: order});
+    }
+  }
+
+  _onLocationButtonPressed = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { longitude, latitude } = position.coords;
+        fetch(`https://geocode-maps.yandex.ru/1.x/?format=json&kind=house&geocode=${longitude},${latitude}`)
+          .then((response) => response.json())
+          .then((responseJson) => {
+            const featureMember = responseJson.response.GeoObjectCollection.featureMember;
+            if (featureMember.length > 0) {
+              var locations = featureMember.map((f) => {
+                let tf = f.GeoObject.metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.Thoroughfare;
+                return {
+                  text: [tf.ThoroughfareName, tf.Premise.PremiseNumber].join(', '),
+                  onPress: () => this._setDeliveryAddress(tf.ThoroughfareName, tf.Premise.PremiseNumber)
+                }
+              }).slice(0, 5);
+              locations.push({text: 'Отмена'});
+              Alert.alert('Адрес доставки', null, locations);
+            } else {
+              Alert.alert('Ошибка', 'Не удалось определить адрес');
+            }
+          })
+          .catch((error) => {
+            Alert.alert('Ошибка', 'Не удалось определить адрес');
+            console.error(error);
+          });
+      },
+      (error) => alert(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    );
+  }
+
+  _setDeliveryAddress(street, home) {
+    this.setState({value: {...this.state.value, street, home}});
+
+    const types = ['аллея', 'бульвар', 'набережная', 'переулок', 'проезд', 'проспект', 'тупик', 'шоссе', 'улица'];
+    var type = types.find((t) => street.indexOf(t) !== -1)
+    if (type) {
+      streetName = street.replace(type, '').trim();
+      fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${streetName}&cityId=5700000100000&limit=10&_=${Date.now()}`)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          responseJson.result.forEach((obj) => {
+            if (obj.type.toLowerCase() == type) {
+              this.setState({streetClassifierId: obj.id});
+            }
+          });
+        })
+        .catch((error) => console.error(error));
     }
   }
 
@@ -335,58 +382,6 @@ export default class Order extends Component {
         {error}
       </View>
     );
-  }
-
-  _onLocationButtonPressed() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { longitude, latitude } = position.coords;
-        fetch(`https://geocode-maps.yandex.ru/1.x/?format=json&kind=house&geocode=${longitude},${latitude}`)
-          .then((response) => response.json())
-          .then((responseJson) => {
-            const featureMember = responseJson.response.GeoObjectCollection.featureMember;
-            if (featureMember.length > 0) {
-              var locations = featureMember.map((f) => {
-                let tf = f.GeoObject.metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.Thoroughfare;
-                return {
-                  text: [tf.ThoroughfareName, tf.Premise.PremiseNumber].join(', '),
-                  onPress: () => this._setDeliveryAddress(tf.ThoroughfareName, tf.Premise.PremiseNumber)
-                }
-              }).slice(0, 5);
-              locations.push({text: 'Отмена'});
-              Alert.alert('Адрес доставки', null, locations);
-            } else {
-              Alert.alert('Ошибка', 'Не удалось определить адрес');
-            }
-          })
-          .catch((error) => {
-            Alert.alert('Ошибка', 'Не удалось определить адрес');
-            console.error(error);
-          });
-      },
-      (error) => alert(error.message),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-    );
-  }
-
-  _setDeliveryAddress(street, home) {
-    this.setState({value: {...this.state.value, street, home}});
-
-    const types = ['аллея', 'бульвар', 'набережная', 'переулок', 'проезд', 'проспект', 'тупик', 'шоссе', 'улица'];
-    var type = types.find((t) => street.indexOf(t) !== -1)
-    if (type) {
-      streetName = street.replace(type, '').trim();
-      fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${streetName}&cityId=5700000100000&limit=10&_=${Date.now()}`)
-        .then((response) => response.json())
-        .then((responseJson) => {
-          responseJson.result.forEach((obj) => {
-            if (obj.type.toLowerCase() == type) {
-              this.setState({streetClassifierId: obj.id});
-            }
-          });
-        })
-        .catch((error) => console.error(error));
-    }
   }
 }
 
