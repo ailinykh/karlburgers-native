@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -41,6 +42,7 @@
 		DF50076667C643BF87AA59AA /* Skia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E509371BBC734471BBFFD8B2 /* Skia.ttf */; };
 		E57E5A9C1C9548D280F1388C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BF039CBD2FA4AF5B6B92177 /* EvilIcons.ttf */; };
 		E8212B897BC0437B9E219D68 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1201677DDB2243C7A76C8A3B /* Foundation.ttf */; };
+		EAD2C5EA1D67B3EE00FF2002 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EAD2C5EC1D67B3EE00FF2002 /* InfoPlist.strings */; };
 		EC5CF62D1C0D4E49AF881488 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0C9E696264CA4A8A8289436C /* Ionicons.ttf */; };
 		FB54FFAE70684DAA87BC8853 /* Microsoft Sans Serif.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45D8B49DD8A245FFBF0A54BA /* Microsoft Sans Serif.ttf */; };
 /* End PBXBuildFile section */
@@ -174,6 +176,7 @@
 		D7A83D15366A46E687756F48 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		DCAF85B93ED540D492ADE2C7 /* Courier New.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Courier New.ttf"; path = "../node_modules/native-base/Fonts/Courier New.ttf"; sourceTree = "<group>"; };
 		E509371BBC734471BBFFD8B2 /* Skia.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Skia.ttf; path = "../node_modules/native-base/Fonts/Skia.ttf"; sourceTree = "<group>"; };
+		EAD2C5ED1D67B3F600FF2002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F2058697949B49F6A573B2CC /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		F258439119554399A5877936 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -291,6 +294,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				EAD2C5EC1D67B3EE00FF2002 /* InfoPlist.strings */,
 			);
 			name = karlburgers;
 			sourceTree = "<group>";
@@ -617,6 +621,7 @@
 				4A3F28C6A8304E3290CEF7BE /* Courier New.ttf in Resources */,
 				C2E1CAD1459246998B9274EC /* Georgia.ttf in Resources */,
 				FB54FFAE70684DAA87BC8853 /* Microsoft Sans Serif.ttf in Resources */,
+				EAD2C5EA1D67B3EE00FF2002 /* InfoPlist.strings in Resources */,
 				586260E10DC14F109C761F41 /* Roboto_medium.ttf in Resources */,
 				2D3D0B95F72C4390A24F2724 /* Roboto.ttf in Resources */,
 				A154C9F140FF44B78F3D2732 /* SF-UI-Text-Regular.otf in Resources */,
@@ -688,6 +693,14 @@
 			);
 			name = LaunchScreen.xib;
 			path = karlburgers;
+			sourceTree = "<group>";
+		};
+		EAD2C5EC1D67B3EE00FF2002 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EAD2C5ED1D67B3F600FF2002 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

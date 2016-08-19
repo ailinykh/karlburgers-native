@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  karlburgers
+
+  Created by Tony on 20.08.16.
+  Copyright © 2016 Facebook. All rights reserved.
+*/
+"CFBundleDisplayName" = "Бургерная";
+"CFBundleName" = "Karlburgers";
