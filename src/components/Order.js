@@ -282,8 +282,8 @@ export default class Order extends Component {
     const types = ['аллея', 'бульвар', 'набережная', 'переулок', 'проезд', 'проспект', 'тупик', 'шоссе', 'улица'];
     var type = types.find((t) => street.indexOf(t) !== -1)
     if (type) {
-      streetName = street.replace(type, '').trim();
-      fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${streetName}&cityId=5700000100000&limit=10&_=${Date.now()}`)
+      streetType = street.replace(type, '').trim();
+      fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${streetType}&cityId=5700000100000&limit=10&_=${Date.now()}`)
         .then((response) => response.json())
         .then((responseJson) => {
           responseJson.result.forEach((obj) => {
