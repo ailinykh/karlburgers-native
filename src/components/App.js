@@ -22,17 +22,21 @@ export default class App extends Component {
         <Router>
           <Scene key="root">
             <Scene
+              key="orderPreview"
+              component={OrderPreview}
+              title="Отправить заказ"/>
+            <Scene
               key="drawer"
               component={NavigationDrawer}
               drawerImage={require("../images/navicon.png")}
+              initial
               >
               <Scene key="main" tabs tabBarHidden>
                 <Scene
                   key="shop"
                   drawerImage={require("../images/navicon.png")}
                   component={Shop}
-                  title="Меню"
-                  initial/>
+                  title="Меню"/>
                 <Scene
                   key="about"
                   drawerImage={require("../images/navicon.png")}
@@ -52,10 +56,6 @@ export default class App extends Component {
               key="order"
               component={Order}
               title="Заказ"/>
-            <Scene
-              key="orderPreview"
-              component={OrderPreview}
-              title="Отправить заказ"/>
           </Scene>
         </Router>
       </Provider>
