@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { View, TouchableHighlight } from 'react-native';
 import { Provider } from 'react-redux';
 import { Scene, Router } from 'react-native-router-flux';
+import { Icon } from 'native-base';
 
 import configureStore from '../store/configureStore';
 
@@ -28,18 +30,15 @@ export default class App extends Component {
             <Scene
               key="drawer"
               component={NavigationDrawer}
-              drawerImage={require("../images/navicon.png")}
               initial
               >
               <Scene key="main" tabs tabBarHidden>
                 <Scene
                   key="shop"
-                  drawerImage={require("../images/navicon.png")}
                   component={Shop}
                   title="Меню"/>
                 <Scene
                   key="about"
-                  drawerImage={require("../images/navicon.png")}
                   component={About}
                   title="Как нас найти"/>
               </Scene>
@@ -62,7 +61,3 @@ export default class App extends Component {
     );
   }
 }
-
-// export default connect((state) => ({
-//   cartProducts: state.cart.products
-// }))(App);

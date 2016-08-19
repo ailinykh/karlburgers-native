@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, ScrollView, MapView, View, Text, TouchableOpacity, Linking } from 'react-native';
 import { Card, CardItem } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
+import NavigationBar from './NavigationBar';
 
 import { KB_ORANGE } from '../constants';
 
@@ -40,6 +41,10 @@ export default class About extends Component {
 
   _openMap() {
     Linking.openURL('http://maps.apple.com/maps?ll=52.961597,36.064426&z=19&q=Бургерная Карл Маркс').catch(err => console.error('An error occurred', err));
+  }
+
+  static renderNavigationBar(props) {
+    return <NavigationBar {...props} />
   }
 }
 

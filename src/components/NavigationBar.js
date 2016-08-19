@@ -1,14 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { NavBar, Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default class NavigationBar extends NavBar {
+
+  static contextTypes = {
+    drawer: PropTypes.object
+  }
+
+  renderLeftButton(props) {
+    return(
+      <TouchableOpacity onPress={this.context.drawer.toggle} style={{ width: 35, height: 30, left: 10, top: 27, position: 'absolute'}}>
+        <View>
+          <Icon name="md-menu" size={30} />
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
   renderRightButton(props) {
     var count = this.props.cartProducts.reduce((sum, p) => { return sum + p.count}, 0);
     return (
-      count > 0 ?
+      count > 0 && props.name == 'shop' ?
         <TouchableOpacity
           onPress={()=>Actions.cart()}
           style={{ width: 44, height: 30, right: 5, top: 20, position: 'absolute'}}>
