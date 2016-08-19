@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { addOrderToHistory, flushCart } from '../actions';
 import { Actions, ActionConst } from 'react-native-router-flux';
-import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
+import { IIKO_RESTARAUNT_ID, KB_ORANGE_DARK } from '../constants';
 import { Button, Icon, List, ListItem } from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import _ from 'lodash';
@@ -71,7 +71,7 @@ export default class OrderPreview extends Component {
 
         <Button
           block
-          style={{margin: 25}}
+          style={{margin: 25, backgroundColor: KB_ORANGE_DARK}}
           onPress={this._onButtonPress}>
           Отправить
         </Button>

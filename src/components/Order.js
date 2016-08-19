@@ -21,7 +21,7 @@ import t from 'tcomb-form-native';
 import _ from 'lodash';
 import Autocomplete from 'react-native-autocomplete-input';
 import { Actions, ActionConst } from 'react-native-router-flux';
-import { KLADR_API_KEY } from '../constants';
+import { KLADR_API_KEY, KB_ORANGE_DARK } from '../constants';
 
 var Form = t.form.Form;
 const stylesheet = _.cloneDeep(t.form.Form.stylesheet)
@@ -169,7 +169,7 @@ export default class Order extends Component {
           />
           <Button
             block
-            style={{margin: 25}}
+            style={{margin: 25, backgroundColor: KB_ORANGE_DARK}}
             onPress={this._onFormSubmit}>
             Оформить заказ
           </Button>

@@ -4,7 +4,7 @@ import { StyleSheet, ScrollView, View, Text, TouchableHighlight, TouchableOpacit
 import { Actions, ActionConst } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { fetchOrderToHistory } from '../actions';
-import { KB_ORANGE, KB_ORANGE_DARK } from '../constants';
+import { KB_ORANGE, KB_ORANGE_DARK, KB_VK_URL, KB_VK_IN_APP_URL, KB_INSTAGRAM_URL, KB_INSTAGRAM_IN_APP_URL } from '../constants';
 
 export default class SideMenu extends Component {
 
@@ -61,23 +61,23 @@ export default class SideMenu extends Component {
 
   _openVK() {
     // http://handleopenurl.com/scheme/vk
-    Linking.canOpenURL('vk://vk.com/karl_burgers').then(supported => {
+    Linking.canOpenURL(KB_VK_IN_APP_URL).then(supported => {
       if (!supported) {
-        console.log('Can\'t handle url: vk:karl_burgers');
-        return Linking.openURL('https://vk.com/karl_burgers');
+        console.log('Can\'t handle url: '+KB_VK_IN_APP_URL);
+        return Linking.openURL(KB_VK_URL);
       } else {
-        return Linking.openURL('vk://vk.com/karl_burgers');
+        return Linking.openURL(KB_VK_IN_APP_URL);
       }
     }).catch(err => console.error('An error occurred', err));
   }
 
   _openInstagram() {
-    Linking.canOpenURL('instagram://user?username=karl_burgers').then(supported => {
+    Linking.canOpenURL(KB_INSTAGRAM_IN_APP_URL).then(supported => {
       if (!supported) {
-        console.log('Can\'t handle url: instagram://user?username=karl_burgers');
-        return Linking.openURL('https://instagram.com/karl_burgers');
+        console.log('Can\'t handle url: '+KB_INSTAGRAM_IN_APP_URL);
+        return Linking.openURL(KB_INSTAGRAM_URL);
       } else {
-        return Linking.openURL('instagram://user?username=karl_burgers');
+        return Linking.openURL(KB_INSTAGRAM_IN_APP_URL);
       }
     }).catch(err => console.error('An error occurred', err));
   }

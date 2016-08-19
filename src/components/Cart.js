@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Actions } from 'react-native-router-flux';
 import { Button } from 'native-base';
 import { addToCart, removeFromCart } from '../actions';
-import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
+import { IIKO_RESTARAUNT_ID, KB_ORANGE_DARK } from '../constants';
 
 export default class Cart extends Component {
 
@@ -35,7 +35,7 @@ export default class Cart extends Component {
           />
           <Button
             block
-            style={{margin: 25}}
+            style={{margin: 25, backgroundColor: KB_ORANGE_DARK}}
             onPress={() => Actions.order()}>
             {buttonText}
           </Button>
