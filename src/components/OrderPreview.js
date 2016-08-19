@@ -88,8 +88,7 @@ export default class OrderPreview extends Component {
     const { order } = this.props;
     this.props.dispatch(addOrderToHistory(order));
     this.props.dispatch(flushCart());
-    Actions.drawer({type: ActionConst.POP_TO, targetIndex:0});
-    // Actions.pop();
+    Actions.drawer({type: ActionConst.PUSH_OR_POP});
   }
 }
 
