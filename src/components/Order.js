@@ -44,7 +44,7 @@ var Person = t.struct({
   orderType: OrderType,
   street: t.maybe(t.String),
   home: t.maybe(t.String),
-  note: t.maybe(t.String)
+  comment: t.maybe(t.String)
 });
 
 export default class Order extends Component {
@@ -104,11 +104,11 @@ export default class Order extends Component {
           clearButtonMode: 'while-editing',
           template: this._textFieldWithButtonTemplate.bind(this),
           onSubmitEditing: (event) => {
-            this.refs.form.getComponent('note').refs.input.focus();
+            this.refs.form.getComponent('comment').refs.input.focus();
           },
           onFocus: this._onInputFocus,
         },
-        note: {
+        comment: {
           label: 'Примечание к заказу',
           multiline: true,
           numberOfLines: 4,
@@ -119,7 +119,7 @@ export default class Order extends Component {
       },
     };
     // Restore some user information
-    AsyncStorage.multiGet(['name', 'phone', 'paymentType', 'orderType', 'note'], (err, stores) => {
+    AsyncStorage.multiGet(['name', 'phone', 'paymentType', 'orderType', 'comment'], (err, stores) => {
       stores.filter((store) => store[1] !== null).map((store) => {
         let obj = {};
         obj[store[0]] = store[1];
@@ -233,10 +233,10 @@ export default class Order extends Component {
         ['orderType', order.orderType]
       ];
 
-      if (order.note) {
-        multiset.push(['note', order.note]);
+      if (order.comment) {
+        multiset.push(['comment', order.comment]);
       } else {
-        AsyncStorage.removeItem('note');
+        AsyncStorage.removeItem('comment');
       }
 
       AsyncStorage.multiSet(multiset);

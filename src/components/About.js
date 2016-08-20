@@ -3,8 +3,7 @@ import { StyleSheet, ScrollView, MapView, View, Text, TouchableOpacity, Linking 
 import { Card, CardItem } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationBar from './NavigationBar';
-
-import { KB_ORANGE } from '../constants';
+import { KB_PHONE_NUMBER, KB_FULL_PHONE_NUMBER } from '../constants';
 
 export default class About extends Component {
 
@@ -22,7 +21,7 @@ export default class About extends Component {
           </CardItem>
           <TouchableOpacity onPress={this._openPhone}>
             <CardItem style={styles.card}>
-              <Icon name="md-call" size={23}/><Text style={styles.cardTextHighlited}>+7 (4862) 44-53-69</Text>
+              <Icon name="md-call" size={23}/><Text style={styles.cardTextHighlited}>+7 (4862) {KB_PHONE_NUMBER}</Text>
             </CardItem>
           </TouchableOpacity>
           <TouchableOpacity onPress={this._openMap}>
@@ -36,7 +35,7 @@ export default class About extends Component {
   }
 
   _openPhone() {
-    Linking.openURL('tel://+74862445369').catch(err => console.error('An error occurred', err));
+    Linking.openURL(`tel://${KB_FULL_PHONE_NUMBER}`).catch(err => console.error('An error occurred', err));
   }
 
   _openMap() {

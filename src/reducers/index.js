@@ -15,7 +15,12 @@ const products = (state = {
       // sort by group
       var products = [];
       action.data.groups.sort('order').map((group) => {
-        products.push(...action.data.products.filter((p) => p.parentGroup == group.id))
+        products.push(...action.data.products.filter((p) => {
+          if (p.parentGroup == group.id) {
+            p.category = group.name;
+            return true;
+          }
+        }))
       })
       return Object.assign({}, state, {
         isFetching: false,
