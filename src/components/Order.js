@@ -27,6 +27,17 @@ var Form = t.form.Form;
 const stylesheet = _.cloneDeep(t.form.Form.stylesheet)
 stylesheet.textbox.normal.height = 100;
 
+var min10dig = s => s.replace(/\D/g, '').length >= 10
+var Phone = t.refinement(t.String, s => min10dig(s));
+Phone.getValidationErrorMessage = s => {
+  if (!s) {
+    return 'Необходимо указать номер телефона';
+  }
+  if (!min10dig(s)) {
+    return 'Номер телефона должен содержать 10 цифр минимум';
+  }
+};
+
 var PaymentType = t.enums({
   cash: 'Наличные',
   card: 'Банковская карта'
@@ -39,7 +50,7 @@ var OrderType = t.enums({
 
 var Person = t.struct({
   name: t.String,
-  phone: t.Number,
+  phone: Phone,
   paymentType: PaymentType,
   orderType: OrderType,
   street: t.maybe(t.String),
@@ -70,11 +81,12 @@ export default class Order extends Component {
         },
         phone: {
           label: 'Контактный телефон',
-          error: 'Необходимо указать номер телефона',
+          // error: 'Номер телефона должен содержать 10 цифр минимум',
           placeholder: '+7 999 999-99-99',
           keyboardType: 'phone-pad',
           clearButtonMode: 'while-editing',
           onFocus: this._onInputFocus,
+          getValidationErrorMessage: (s) => 'LALKA'
         },
         paymentType: {
           label: 'Оплата',
@@ -113,6 +125,7 @@ export default class Order extends Component {
           multiline: true,
           numberOfLines: 4,
           stylesheet: stylesheet,
+          clearButtonMode: 'while-editing',
           offset: 200,
           onFocus: this._onInputFocus,
         }
@@ -221,6 +234,7 @@ export default class Order extends Component {
           if (!value.home || value.home.length == 0) {
             this.refs.form.getComponent('home').setState({hasError:true});
           }
+          this.refs.form.getComponent(result.firstError().path).refs.input.focus();
           return;
         }
       }
@@ -317,6 +331,7 @@ export default class Order extends Component {
           listStyle={{margin: 0}}
           data={data}
           defaultValue={locals.value}
+          clearButtonMode={locals.clearButtonMode}
           onChangeText={(value) => {
             locals.onChange(value);
             fetch(`http://kladr-api.ru/api.php?token=${KLADR_API_KEY}&key=${KLADR_API_KEY}&contentType=street&query=${value}&cityId=5700000100000&limit=10&_=${Date.now()}`)

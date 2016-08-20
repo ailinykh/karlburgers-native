@@ -4,16 +4,18 @@ import { connect } from 'react-redux';
 import { addOrderToHistory, flushCart } from '../actions';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE_DARK, KB_PHONE_NUMBER, KB_FULL_PHONE_NUMBER } from '../constants';
-import { Button, Icon, List, ListItem } from 'native-base';
+import { Button, Icon, List, ListItem, Spinner } from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import _ from 'lodash';
 
 export default class OrderPreview extends Component {
 
+  state = {
+    isLoading: false
+  }
+
   render() {
     const { order } = this.props;
-    console.log(order);
-    console.log(Platform);
     return (
       <ScrollView style={styles.container}>
         <List>
@@ -69,31 +71,35 @@ export default class OrderPreview extends Component {
             : null
           }
         </List>
-
-        <Button
-          block
-          style={{margin: 25, backgroundColor: KB_ORANGE_DARK}}
-          onPress={() => this._sendOrder(order)}>
-          Отправить
-        </Button>
+        { this.state.isLoading ?
+          <Spinner color="orange" />
+          :
+          <Button
+            block
+            style={{margin: 25, backgroundColor: KB_ORANGE_DARK}}
+            onPress={() => this._sendOrder(order)}>
+            Отправить
+          </Button>
+        }
       </ScrollView>
     );
   }
 
   _sendOrder(order) {
+    this.setState({isLoading: true})
     fetch(`http://deliverywiget.iiko.ru/Orders/AddOrder/${IIKO_RESTARAUNT_ID}`, {
       method: 'POST',
-      body: JSON.stringify({
-        data: this._getJSON(order)
-      })
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      },
+      body: `json=${encodeURIComponent(JSON.stringify(this._getJSON(order)))}&lang=ru`
     }).then((response) => {
+      this.setState({isLoading: false})
       if (response.status == 200) {
+        this.props.dispatch(addOrderToHistory(order));
+        this.props.dispatch(flushCart());
         Alert.alert('Заказ оформлен!', 'Мы свяжемся с вами в ближайшее время', [
-          {text: 'Ок', onPress: () => {
-            this.props.dispatch(addOrderToHistory(order));
-            this.props.dispatch(flushCart());
-            Actions.drawer({type: ActionConst.PUSH_OR_POP});
-          }}
+          {text: 'Ок', onPress: () => Actions.drawer({type: ActionConst.PUSH_OR_POP})}
         ])
       } else {
         Alert.alert('Упс! Что-то пошло не так', 'Не удается передать заказ на сервер, однако, Вы можете позвонить нам и сообщить о заказе по телефону!', [
@@ -101,9 +107,9 @@ export default class OrderPreview extends Component {
           {text: 'Ок'}
         ])
       }
-      console.log(response);
     })
     .catch((error) => {
+      this.setState({isLoading: false})
       Alert.alert('Ошибка!', 'Не удалось отправить запрос. Попробуйте повторить запрос чуть позже');
       console.error(error);
     });
@@ -115,12 +121,12 @@ export default class OrderPreview extends Component {
       restaraunt: IIKO_RESTARAUNT_ID,
       order: {
         id: this._guid(),
-        phone: order.phone,
+        phone: '+7'+order.phone.replace(/\D/g, '').slice(-10),
         orderType: order.orderType,
         address: {
-          street: order.street,
-          streetClassifierId: order.streetClassifierId,
-          home: order.home,
+          street: order.street || '',
+          streetClassifierId: order.streetClassifierId || null,
+          home: order.home || '',
           city: "Орел",
           cityId: "5700000100000"
         },
@@ -149,7 +155,7 @@ export default class OrderPreview extends Component {
       },
       customer: {
         id: null,
-        phone: order.phone,
+        phone: '+7'+order.phone.replace(/\D/g, '').slice(-10),
         name: order.name
       }
     }
