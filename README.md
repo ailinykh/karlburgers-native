@@ -9,7 +9,12 @@ The [hipstest burger](http://karlburgers.ru/) delivery app. Powered with React N
 - [react-native-drawer](https://github.com/root-two/react-native-drawer)
 
 ## Installation
-`npm install`
-
+```bash
+npm install
+```
 ## Run
-`react-native run-ios`
+```bash
+react-native run-ios
+```
+
+Make sure you have `react-native` installed. Otherwise run `npm install -g react-native-cli`
