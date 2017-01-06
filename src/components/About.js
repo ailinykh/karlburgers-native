@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, MapView, View, Text, TouchableOpacity, Linking } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Linking, Dimensions } from 'react-native';
+import MapView from 'react-native-maps';
 import { Card, CardItem } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationBar from './NavigationBar';
 import { KB_PHONE_NUMBER, KB_FULL_PHONE_NUMBER } from '../constants';
-
+/*<MapView.Marker
+  coordinate={{latitude: 52.961597, longitude: 36.064426}}
+  title='{marker.title}'
+  description='{marker.description}'
+/>*/
 export default class About extends Component {
 
   render() {
     return (
       <ScrollView style={styles.container}>
         <MapView
-          style={{height: 250}}
-          region={{latitude: 52.961597, longitude: 36.064426, latitudeDelta: 0.002, longitudeDelta: 0.002}}
-          annotations={[{latitude: 52.961597, longitude: 36.064426}]}
-          />
+          style={styles.map}
+          initialRegion={{latitude: 52.961597, longitude: 36.064426, latitudeDelta: 0.002, longitudeDelta: 0.002}}
+          >
+        </MapView>
         <Card style={{margin:15}}>
           <CardItem style={styles.card}>
             <Icon name="ios-home" size={21}/><Text style={styles.cardText}>Ежедневно (11:30 - 22:30)</Text>
@@ -50,6 +55,10 @@ export default class About extends Component {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 64,
+  },
+  map: {
+    height: 250,
+    width: Dimensions.get('window').width,
   },
   card: {
     padding: 15,
