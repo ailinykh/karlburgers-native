@@ -8,7 +8,7 @@ import { Button, Icon, List, ListItem, Spinner } from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import _ from 'lodash';
 
-export default class OrderPreview extends Component {
+export class OrderPreview extends Component {
 
   state = {
     isLoading: false

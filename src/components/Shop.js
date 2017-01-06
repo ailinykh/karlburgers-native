@@ -7,7 +7,7 @@ import NavigationBar from './NavigationBar';
 import ShopItem from './ShopItem';
 import { KB_ORANGE } from '../constants';
 
-export default class Shop extends Component {
+export class Shop extends Component {
 
   constructor(props) {
     super(props);

@@ -58,7 +58,7 @@ var Person = t.struct({
   comment: t.maybe(t.String)
 });
 
-export default class Order extends Component {
+export class Order extends Component {
 
   constructor(props) {
     super(props);
@@ -169,7 +169,7 @@ export default class Order extends Component {
     return (
       <ScrollView
         ref='scrollView'
-        keyboardShouldPersistTaps={true}
+        keyboardShouldPersistTaps='always'
         keyboardDismissMode='on-drag'
         style={styles.container}>
         <KeyboardAvoidingView behavior='padding' ref='keyboardAvoidingView'>
@@ -268,7 +268,7 @@ export default class Order extends Component {
             const featureMember = responseJson.response.GeoObjectCollection.featureMember;
             if (featureMember.length > 0) {
               var locations = featureMember.map((f) => {
-                let tf = f.GeoObject.metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.SubAdministrativeArea.Locality.Thoroughfare;
+                let tf = f.GeoObject.metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.Locality.Thoroughfare;
                 return {
                   text: [tf.ThoroughfareName, tf.Premise.PremiseNumber].join(', '),
                   onPress: () => this._setDeliveryAddress(tf.ThoroughfareName, tf.Premise.PremiseNumber)

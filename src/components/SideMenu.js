@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { fetchOrderToHistory } from '../actions';
 import { KB_ORANGE, KB_ORANGE_DARK, KB_VK_URL, KB_VK_IN_APP_URL, KB_INSTAGRAM_URL, KB_INSTAGRAM_IN_APP_URL } from '../constants';
 
-export default class SideMenu extends Component {
+export class SideMenu extends Component {
 
   constructor(props, context) {
     super(props, context);

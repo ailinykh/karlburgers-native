@@ -4,7 +4,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { NavBar, Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default class NavigationBar extends NavBar {
+export class NavigationBar extends NavBar {
 
   static contextTypes = {
     drawer: PropTypes.object

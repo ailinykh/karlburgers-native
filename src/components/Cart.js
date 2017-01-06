@@ -7,7 +7,7 @@ import { Button } from 'native-base';
 import { addToCart, removeFromCart } from '../actions';
 import { IIKO_RESTARAUNT_ID, KB_ORANGE_DARK } from '../constants';
 
-export default class Cart extends Component {
+export class Cart extends Component {
 
   constructor(props) {
     super(props);

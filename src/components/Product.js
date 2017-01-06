@@ -7,7 +7,7 @@ import { IIKO_RESTARAUNT_ID, KB_ORANGE } from '../constants';
 import { Button, Icon } from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
 
-export default class Product extends Component {
+export class Product extends Component {
 
   constructor(props) {
     super(props);
