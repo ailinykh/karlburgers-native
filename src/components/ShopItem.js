@@ -11,6 +11,7 @@ export default class ShopItem extends Component {
         <View>
           <Image style={styles.image}
             resizeMode={Image.resizeMode.contain}
+            defaultSource={require('../images/kb-placeholder.png')}
             source={{uri: `http://deliverywiget.iiko.ru/Content/User/${IIKO_RESTARAUNT_ID}/${this.props.product.imageId}_Medium_.png`}}
           />
           <View style={styles.orderContainer}>
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#CCC',
     padding: 10,
     width: width*.5,
-    height: width > 320 ? width*.85 : width*.92,
+    height: width > 320 ? width*.87 : width*.94,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
