@@ -38,7 +38,7 @@ export default class ShopItem extends Component {
 
 var width = Dimensions.get('window').width;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   item: {
     // backgroundColor: '#CCC',
     padding: 10,

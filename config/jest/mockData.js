@@ -1,0 +1,32 @@
+export const products = [
+  {
+    id: "396beeeb-6ace-4d34-b006-3bd22648005c",
+    name: "Карл-Бургер",
+    code: "00074",
+    description: "Фирменный бургер с говяжьей котлетой, беконом и луковым джемом.\n<br>\n<br>\n<br>\n<b>Снаружи:</b> Булочка с кунжутом.\n<br>\n<b>Внутри:</b> Говяжья котлета, бекон, сыр Моцарелла, листья салата, соленый огурец, чесночный соус, луковый джем и соус барбекю.\n<br>\n<br>\n<img src=\"http://www.karlburgers.ru/wp-content/uploads/2016/03/imidj_karl.jpg\"> \n",
+    order: 2,
+    parentGroup: "99dd07e2-fc7f-4a30-8d4b-8a8528272729",
+    imageId: "58980899-e619-4a33-a3db-2891f84e7241",
+    price: 270,
+  },
+  {
+    id: "5e65b415-7c8d-4832-8f56-dcd97e181c57",
+    name: "Классика жанра",
+    code: "00083",
+    description: "Чизбургер. Говяжья котлета, сыр и овощи.\n<br>\n<br>\n<br>\n<br>\n<b>Снаружи:</b> Булочка с кунжутом.\n<br>\n<b>Внутри:</b> Говяжья котлета, сыр Чеддер, листья салата, соленый огурец, чесночный соус, кетчуп и красный лук.\n\n<br>\n<br>\n<img src=\"http://www.karlburgers.ru/wp-content/uploads/2016/03/i_chiz.jpg\">",
+    order: 3,
+    parentGroup: "99dd07e2-fc7f-4a30-8d4b-8a8528272729",
+    imageId: "530fb33d-62d5-430f-9aea-90f839fd7cfb",
+    price: 250,
+  },
+  {
+    id: "b5bcdca1-4d2b-4a9d-a40f-6bf61fda038b",
+    name: "Море-море",
+    code: "00072",
+    description: "Бургер с филе трески и свежими овощами.\n<br>\n<br>\n<br>\n<br>\n<b>Снаружи:</b> Булочка с кунжутом.\n<br>\n<b>Внутри:</b> Филе трески, свежий огурец, листья салата, соус терияки и луковая крошка.\n<br>\n<br>\n<img src=\"http://www.karlburgers.ru/wp-content/uploads/2016/03/i_more.jpg\"> \n",
+    order: 4,
+    parentGroup: "99dd07e2-fc7f-4a30-8d4b-8a8528272729",
+    imageId: "c39f8ba7-42f8-4c55-a03b-de44cce562fc",
+    price: 250,
+  },
+];
