@@ -40,7 +40,7 @@ export class SideMenu extends Component {
           <Text style={styles.header}>Последние заказы</Text>
         </View>
         {
-          this.props.orders ?
+          this.props.orders && this.props.orders.length > 0 ?
             this.props.orders.map((order, i) =>
               <View key={i}>
                 <View style={styles.separator}/>

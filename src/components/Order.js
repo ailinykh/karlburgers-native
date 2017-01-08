@@ -268,10 +268,12 @@ export class Order extends Component {
             const featureMember = responseJson.response.GeoObjectCollection.featureMember;
             if (featureMember.length > 0) {
               var locations = featureMember.map((f) => {
-                let tf = f.GeoObject.metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.Locality.Thoroughfare;
-                return {
-                  text: [tf.ThoroughfareName, tf.Premise.PremiseNumber].join(', '),
-                  onPress: () => this._setDeliveryAddress(tf.ThoroughfareName, tf.Premise.PremiseNumber)
+                let tf;
+                if (tf = this._tryToFindThoroughfare(f)) {
+                  return {
+                    text: [tf.ThoroughfareName, tf.Premise.PremiseNumber].join(', '),
+                    onPress: () => this._setDeliveryAddress(tf.ThoroughfareName, tf.Premise.PremiseNumber)
+                  }
                 }
               }).slice(0, 5);
               locations.push({text: 'Отмена'});
@@ -288,6 +290,17 @@ export class Order extends Component {
       (error) => alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
+  }
+
+  _tryToFindThoroughfare(featureMember) {
+    try {
+      let administrativeArea = featureMember.GeoObject.metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea;
+      if (administrativeArea.Locality) {
+        return administrativeArea.Locality.Thoroughfare;
+      }
+      return administrativeArea.SubAdministrativeArea.Locality.Thoroughfare;
+    } catch (e) { console.log(e); }
+    return null;
   }
 
   _setDeliveryAddress(street, home) {
