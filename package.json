@@ -9,7 +9,8 @@
   "jest": {
     "preset": "jest-react-native",
     "setupFiles": [
-      "./config/jest/setup.js"
+      "./config/jest/setup.js",
+      "./config/jest/globalFetch.js"
     ]
   },
   "dependencies": {

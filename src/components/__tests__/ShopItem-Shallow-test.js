@@ -2,6 +2,7 @@ import {
   Text
 } from 'react-native';
 import React from 'react';
+import { connect } from 'react-redux';
 import { shallow } from 'enzyme';
 
 import ShopItem, { styles } from '../ShopItem';

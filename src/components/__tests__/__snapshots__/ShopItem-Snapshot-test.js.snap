@@ -1,0 +1,157 @@
+exports[`test renders a ShopItem using Snapshots 1`] = `
+<View
+  accessibilityComponentType={undefined}
+  accessibilityLabel={undefined}
+  accessibilityTraits={undefined}
+  accessible={true}
+  hitSlop={undefined}
+  onLayout={undefined}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "transparent",
+      },
+      Object {
+        "borderBottomColor": "#ddd",
+        "borderBottomWidth": 1,
+        "height": 652.5,
+        "padding": 10,
+        "width": 375,
+      },
+    ]
+  }
+  testID={undefined}>
+  <View>
+    <Image
+      defaultSource={1}
+      resizeMode="contain"
+      source={
+        Object {
+          "uri": "http://deliverywiget.iiko.ru/Content/User/5c77b3eb-0b8b-11e6-80c8-d8d385655247/58980899-e619-4a33-a3db-2891f84e7241_Medium_.png",
+        }
+      }
+      style={
+        Object {
+          "height": 300,
+        }
+      } />
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "padding": 10,
+        }
+      }>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 17,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontWeight": "bold",
+            }
+          }>
+          270
+        </Text>
+         руб.
+      </Text>
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        hitSlop={undefined}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+        testID={undefined}>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#f8863d",
+              "fontSize": 19,
+              "paddingLeft": 10,
+              "paddingRight": 10,
+              "textAlign": "right",
+            }
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={false}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "color": undefined,
+                  "fontSize": 19,
+                },
+                Object {},
+                Object {
+                  "fontFamily": "Ionicons",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+              ]
+            }>
+            
+          </Text>
+           
+          0
+        </Text>
+      </View>
+    </View>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "fontSize": 20,
+          "paddingBottom": 5,
+          "textAlign": "center",
+        }
+      }>
+      Карл-Бургер
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }>
+      Фирменный бургер с говяжьей котлетой, беконом и луковым джемом.
+    </Text>
+  </View>
+</View>
+`;
