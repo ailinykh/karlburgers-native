@@ -1,4 +1,4 @@
-# Karlburgers
+# Karlburgers [![Build Status](https://api.travis-ci.org/ailinykh/karlburgers-native.svg?branch=master)](https://travis-ci.org/ailinykh/karlburgers-native)
 The [hipstest burger](http://karlburgers.ru/) delivery app. Powered with React Native
 
 ![Karlburgers app](http://i.imgur.com/znBqnbH.gif)
