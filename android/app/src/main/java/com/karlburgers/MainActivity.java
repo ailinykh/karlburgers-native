@@ -1,4 +1,4 @@
-package com.karlburgers;
+package ru.karlburgers;
 
 import com.facebook.react.ReactActivity;
 

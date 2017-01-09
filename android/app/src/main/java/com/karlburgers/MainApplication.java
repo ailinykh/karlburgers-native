@@ -1,4 +1,4 @@
-package com.karlburgers;
+package ru.karlburgers;
 
 import android.app.Application;
 import android.util.Log;
