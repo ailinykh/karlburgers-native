@@ -416,7 +416,7 @@ export class Order extends Component {
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    paddingTop: 74,
+    paddingTop: 10,
   },
   keyboardContainer: {
     flex: 1,

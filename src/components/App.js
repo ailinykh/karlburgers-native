@@ -19,6 +19,11 @@ const store = configureStore();
 export default class App extends Component {
 
   render() {
+
+    let sceneStyle = {
+      paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight
+    };
+
     return(
       <Provider store={store}>
         <Router>
@@ -26,6 +31,7 @@ export default class App extends Component {
             <Scene
               key="orderPreview"
               component={OrderPreview}
+              sceneStyle={sceneStyle}
               title="Отправить заказ"/>
             <Scene
               key="drawer"
@@ -36,26 +42,29 @@ export default class App extends Component {
                 <Scene
                   key="shop"
                   component={Shop}
-                  sceneStyle={{paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight}}
+                  sceneStyle={sceneStyle}
                   title="Меню"/>
                 <Scene
                   key="about"
                   component={About}
+                  sceneStyle={sceneStyle}
                   title="Как нас найти"/>
               </Scene>
             </Scene>
             <Scene
               key="product"
               component={Product}
-              sceneStyle={{paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight}}
+              sceneStyle={sceneStyle}
               title="Бургер"/>
             <Scene
               key="cart"
               component={Cart}
+              sceneStyle={sceneStyle}
               title="Корзина"/>
             <Scene
               key="order"
               component={Order}
+              sceneStyle={sceneStyle}
               title="Заказ"/>
           </Scene>
         </Router>

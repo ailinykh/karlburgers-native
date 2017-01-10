@@ -86,7 +86,6 @@ var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 64,
   },
   item: {
     flexDirection: 'row',
