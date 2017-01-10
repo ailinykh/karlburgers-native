@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchProducts, addToCart } from '../actions';
 import { StyleSheet, ListView, RefreshControl, View, Image, Text } from 'react-native';
+import { Container, Content } from 'native-base';
 
 import NavigationBar from './NavigationBar';
 import ShopItem from './ShopItem';
@@ -65,7 +66,7 @@ export class Shop extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 64,
+    // paddingTop: 64,
     flex: 1
   },
   bgImage: {

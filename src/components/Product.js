@@ -62,7 +62,6 @@ var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 64,
     flex: 1
   },
   image: {

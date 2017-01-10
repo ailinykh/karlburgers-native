@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, TouchableHighlight } from 'react-native';
+import { View, TouchableHighlight, Navigator } from 'react-native';
 import { Provider } from 'react-redux';
 import { Scene, Router } from 'react-native-router-flux';
 import { Icon } from 'native-base';
@@ -36,6 +36,7 @@ export default class App extends Component {
                 <Scene
                   key="shop"
                   component={Shop}
+                  sceneStyle={{paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight}}
                   title="Меню"/>
                 <Scene
                   key="about"
@@ -46,6 +47,7 @@ export default class App extends Component {
             <Scene
               key="product"
               component={Product}
+              sceneStyle={{paddingTop: Navigator.NavigationBar.Styles.General.TotalNavHeight}}
               title="Бургер"/>
             <Scene
               key="cart"
