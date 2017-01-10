@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
 import { NavBar, Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -12,7 +12,7 @@ export class NavigationBar extends NavBar {
 
   renderLeftButton(props) {
     return(
-      <TouchableOpacity onPress={this.context.drawer.toggle} style={{ width: 35, height: 30, left: 10, top: 27, position: 'absolute'}}>
+      <TouchableOpacity onPress={this.context.drawer.toggle} style={styles.leftButton}>
         <View>
           <Icon name="md-menu" size={30} />
         </View>
@@ -36,6 +36,23 @@ export class NavigationBar extends NavBar {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  leftButton: {
+    width: 35,
+    height: 30,
+    left: 10,
+    position: 'absolute',
+    ...Platform.select({
+      ios: {
+        top: 27,
+      },
+      android: {
+        top: 20,
+      }
+    })
+  }
+});
 
 export default connect((state) => ({
   cartProducts: state.cart.products
