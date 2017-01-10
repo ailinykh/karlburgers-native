@@ -26,7 +26,7 @@ export class NavigationBar extends NavBar {
       count > 0 && props.name == 'shop' ?
         <TouchableOpacity
           onPress={()=>Actions.cart()}
-          style={{ width: 44, height: 30, right: 5, top: 20, position: 'absolute'}}>
+          style={styles.rightButton}>
           <View style={{flexDirection:'row', paddingTop: 10}}>
             <Icon name="ios-cart" size={21} style={{paddingTop: 2}}/>
             <Text style={{fontSize: 19, paddingLeft: 5}}>{count}</Text>
@@ -49,6 +49,20 @@ const styles = StyleSheet.create({
       },
       android: {
         top: 15,
+      }
+    })
+  },
+  rightButton: {
+    width: 44,
+    height: 30,
+    right: 5,
+    position: 'absolute',
+    ...Platform.select({
+      ios: {
+        top: 20,
+      },
+      android: {
+        top: 8,
       }
     })
   }
